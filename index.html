@@ -3,259 +3,396 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>USDT Cash24 — Обменник Карта / Наличные</title>
+  <title>USDT Cash24 — Сервис обмена USDT на Карты и Наличные в РФ</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0b0e14; }
-    .glass-card { background: rgba(18, 24, 38, 0.95); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #07090e; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blue-glow { background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, rgba(0,0,0,0) 70%); }
+    .gold-glow { background: radial-gradient(circle, rgba(245,158,11,0.2) 0%, rgba(0,0,0,0) 70%); }
+    .glass-card {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.75) 0%, rgba(11, 15, 25, 0.9) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
     .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
     .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .quick-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
   </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
 
-  <header class="border-b border-slate-800 bg-slate-950/90 sticky top-0 z-40">
-    <div class="max-w-xl mx-auto px-4 h-14 flex items-center justify-between">
-      <div id="secretLogoTrigger" onclick="handleSecretClick()" class="flex items-center gap-2.5 cursor-pointer select-none">
-        <div id="brandBadge" class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
-          <i data-lucide="zap" class="w-4 h-4"></i>
+  <!-- Фоновое свечение -->
+  <div id="bgGlow" class="hero-glow blue-glow top-[-100px] right-[10%]"></div>
+  <div class="hero-glow blue-glow bottom-[-100px] left-[5%] opacity-50"></div>
+
+  <!-- Шапка сайта -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 sticky top-0 z-40 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-18 py-3 flex items-center justify-between relative z-10">
+      <div id="secretLogoTrigger" onclick="handleSecretClick()" class="flex items-center gap-3 cursor-pointer select-none group">
+        <div id="brandBadge" class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-all">
+          <i data-lucide="shield-check" class="w-5 h-5"></i>
         </div>
         <div>
-          <span class="font-bold text-sm tracking-wider text-white">USDT <span class="text-blue-400" id="brandText">Cash24</span></span>
-          <p class="text-[8px] text-slate-400 uppercase tracking-widest font-semibold" id="brandSubText">СБП до $5,000 / Кэш от $5,000</p>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg tracking-wider text-white">USDT <span class="text-blue-400 transition-colors" id="brandText">Cash24</span></span>
+            <span id="vipBadge" class="hidden px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-amber-500/20 text-amber-400 border border-amber-500/30">VIP Desk</span>
+          </div>
+          <p class="text-[10px] text-slate-400 tracking-wider">Официальный обменный пункт РФ</p>
         </div>
       </div>
-      <div class="text-[11px] text-emerald-400 font-medium flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        Кассы онлайн
+
+      <div class="flex items-center gap-4 sm:gap-6 text-xs">
+        <div class="hidden md:flex items-center gap-3 text-slate-400 border-r border-slate-800 pr-6">
+          <span class="flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5 text-blue-400"></i> Москва-Сити</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400"></i> Гарантия 100%</span>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3 py-1.5 rounded-full">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-slate-300 font-medium">Кассы онлайн</span>
+        </div>
       </div>
     </div>
   </header>
 
-  <section id="policyBanner" class="bg-blue-500/10 border-b border-blue-500/20 py-1.5 px-4 text-center">
-    <p id="policyBannerText" class="text-xs text-blue-300 font-medium flex items-center justify-center gap-1.5">
-      <i data-lucide="credit-card" class="w-3.5 h-3.5 shrink-0 text-blue-400"></i>
-      <span>Режим: <strong>Выплата на Карту / СБП РФ</strong> (до $5,000).</span>
+  <!-- Информационная полоса режимов -->
+  <section id="policyBanner" class="bg-blue-500/10 border-b border-blue-500/20 py-2.5 px-4 text-center relative z-10 transition-colors">
+    <p id="policyBannerText" class="text-xs sm:text-sm text-blue-300 font-medium flex items-center justify-center gap-2">
+      <i data-lucide="credit-card" class="w-4 h-4 shrink-0 text-blue-400"></i>
+      <span>Режим: <strong>Мгновенная выплата на Карту / СБП РФ</strong> (для сумм до $5,000).</span>
     </p>
   </section>
 
-  <main class="max-w-xl mx-auto px-4 py-4 w-full">
-    <div id="calcView" class="glass-card rounded-2xl p-4 sm:p-5 shadow-2xl space-y-4">
+  <!-- Главный экран (2 колонки на ПК) -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full flex-grow relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <div class="flex items-center justify-between pb-2 border-b border-slate-800">
+      <!-- ЛЕВАЯ КОЛОНКА: Траст, факты, офисы (заполняет пустоту на ПК) -->
+      <div class="lg:col-span-5 space-y-6 pt-2">
         <div>
-          <h1 class="text-base font-bold text-white flex items-center gap-1.5">
-            <span id="cryptoLabel">USDT</span> → <span id="modeTitle">Карта / СБП РФ</span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700/80 mb-4">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> Частный обмен без блокировок карт
+          </div>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+            Безопасный обмен <span class="text-blue-400 transition-colors" id="heroAccentText">USDT</span> в рублях
           </h1>
-          <p class="text-[10px] text-slate-400" id="modeSubtitle">Мгновенный безналичный перевод</p>
+          <p class="text-slate-400 text-sm sm:text-base mt-3 leading-relaxed">
+            Розничные переводы на любые карты банков РФ до $5,000. Крупные объемы от $5,000 — выдача наличными в закрытых кассах без вопросов по 115-ФЗ.
+          </p>
         </div>
-        <div id="modePill" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
-          Безнал
-        </div>
-      </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-          <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Отдаете</label>
-          <div class="flex items-center gap-2">
-            <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()"
-                   class="bg-transparent text-xl font-black text-white w-full focus:outline-none">
-            <select id="networkSelect" onchange="handleCurrencyChange()" class="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-lg px-2 py-1">
-              <option value="USDT_TRC20">USDT (TRC-20)</option>
-              <option value="USDT_ERC20">USDT (ERC-20)</option>
-              <option value="USDT_BSC">USDT (BEP-20)</option>
-              <option value="BTC">BTC (Bitcoin)</option>
-            </select>
+        <!-- Карточки преимуществ -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-xl">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 mb-2">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">Выплаты до 15 минут</h4>
+            <p class="text-xs text-slate-400 mt-1">Автоматическая отправка по СБП сразу после 1 подтверждения сети.</p>
           </div>
-          <span class="text-[10px] text-slate-500 mt-1 block" id="limitHint">От $5,000 — режим наличных</span>
-        </div>
-
-        <div class="bg-slate-900 p-3 rounded-xl border border-slate-800">
-          <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1" id="receiveLabel">Получаете на карту</label>
-          <div class="flex items-center gap-2">
-            <input type="text" id="fiatOutput" readonly class="bg-transparent text-xl font-black text-emerald-400 w-full focus:outline-none">
-            <span class="bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 rounded px-1.5 py-0.5">RUB</span>
-          </div>
-          <span id="rateLabel" class="text-[10px] text-slate-400 mt-1 block">Курс загружается...</span>
-        </div>
-      </div>
-
-      <div id="cardFieldsBlock" class="space-y-2.5 pt-1 border-t border-slate-800/60">
-        <div class="text-[11px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-          <i data-lucide="credit-card" class="w-3.5 h-3.5 text-blue-400"></i>
-          Реквизиты зачисления
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <select id="bankSelect" class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3 py-2 text-xs focus:outline-none">
-            <option value="СБП (Любой банк)">СБП (По номеру телефона)</option>
-            <option value="Т-Банк">Т-Банк (Тинькофф)</option>
-            <option value="Сбербанк">Сбербанк</option>
-            <option value="ВТБ">ВТБ</option>
-            <option value="Альфа-Банк">Альфа-Банк</option>
-          </select>
-          <input type="text" id="cardOrPhoneInput" placeholder="Номер карты или телефон СБП"
-                 class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3 py-2 text-xs focus:outline-none">
-        </div>
-      </div>
-
-      <div id="cashFieldsBlock" class="hidden space-y-3 pt-2 bg-amber-500/5 p-3.5 rounded-xl border border-amber-500/20">
-        <div class="flex items-start gap-2">
-          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
-          <div>
-            <h4 class="text-xs font-bold text-amber-300">USDT Cash24: Выдача наличными</h4>
-            <p class="text-[10px] text-slate-300 leading-snug">
-              Суммы свыше $5,000 выдаются <strong>наличными (RUB)</strong> в охраняемых офисах или VIP-курьером.
-            </p>
+          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-xl">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 mb-2">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">VIP Кассы от $5,000</h4>
+            <p class="text-xs text-slate-400 mt-1">Охраняемые депозитарии в Башне Федерация (Москва-Сити) и миллионниках.</p>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          <div>
-            <label class="block text-[10px] font-semibold text-slate-300 mb-1">Город выдачи:</label>
-            <select id="cashCitySelect" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-2.5 py-1.5 text-xs focus:outline-none">
-              <option value="Москва (Москва-Сити)">Москва (Москва-Сити)</option>
-              <option value="Санкт-Петербург (Литейный / Невский)">Санкт-Петербург</option>
-              <option value="Новосибирск">Новосибирск</option>
-              <option value="Екатеринбург">Екатеринбург</option>
-              <option value="Казань">Казань</option>
-              <option value="Нижний Новгород">Нижний Новгород</option>
-              <option value="Краснодар">Краснодар</option>
-              <option value="Ростов-на-Дону">Ростов-на-Дону</option>
-              <option value="Самара">Самара</option>
-              <option value="Уфа">Уфа</option>
-            </select>
+        <!-- Плашка резервов -->
+        <div class="glass-card p-4 rounded-2xl border border-slate-800 flex items-center justify-between">
+          <div class="space-y-0.5">
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Резерв кассы сегодня</div>
+            <div class="text-xl font-black text-emerald-400 font-mono">185 400 000 ₽</div>
           </div>
-          <div>
-            <label class="block text-[10px] font-semibold text-slate-300 mb-1">Формат получения:</label>
-            <select id="cashDeliveryType" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-2.5 py-1.5 text-xs focus:outline-none">
-              <option value="В кассе офиса">В охраняемой кассе офиса</option>
-              <option value="VIP-Инкассация">VIP-Инкассация (курьер)</option>
-            </select>
+          <div class="text-right space-y-0.5">
+            <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Наличные USD</div>
+            <div class="text-xl font-black text-white font-mono">$2 100 000</div>
           </div>
         </div>
-
-        <div>
-          <label class="block text-[10px] font-semibold text-slate-300 mb-1">Telegram или Телефон для связи:</label>
-          <input type="text" id="tgContactInput" placeholder="@username для связи менеджера"
-                 class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:outline-none">
-        </div>
       </div>
 
-      <button onclick="submitOrder()" id="actionBtn" class="w-full blue-gradient text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2">
-        <span id="actionBtnText">ОБМЕНЯТЬ И ПОЛУЧИТЬ НА КАРТУ</span>
-        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-      </button>
-    </div>
-
-    <div id="invoiceView" class="hidden glass-card rounded-2xl p-5 shadow-2xl space-y-4">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
-        <div>
-          <span class="text-[10px] font-mono tracking-widest text-slate-400" id="orderNumber">#ORD-5541</span>
-          <h2 class="text-base font-bold text-white">USDT Cash24 — Заявка создана</h2>
-        </div>
-        <div class="text-xs font-mono font-bold text-amber-400">15:00</div>
-      </div>
-
-      <div id="cashCodeBox" class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
-        <div>
-          <div class="text-[10px] font-bold text-amber-400 uppercase">Код бронирования кассы:</div>
-          <div class="text-xl font-mono font-black text-white" id="cashPinCode">CASH-781-MSK</div>
-        </div>
-        <span class="text-[10px] text-slate-400 text-right">Назовите кассиру<br>в офисе</span>
-      </div>
-
-      <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 flex flex-col items-center gap-3 text-center">
-        <div class="bg-white p-2 rounded-xl" id="qrcodeHolder"></div>
-        <div class="w-full space-y-2">
-          <div class="text-lg font-black text-emerald-400" id="invCryptoSum">1,000 USDT</div>
-          <div class="flex items-center gap-1.5">
-            <input type="text" id="invWalletInput" readonly class="w-full bg-slate-950 border border-slate-800 font-mono text-[11px] text-slate-300 px-2.5 py-1.5 rounded-lg">
-            <button onclick="copyWallet()" class="p-2 bg-slate-800 rounded-lg text-slate-300"><i data-lucide="copy" class="w-3.5 h-3.5"></i></button>
+      <!-- ПРАВАЯ КОЛОНКА: Интерактивный Калькулятор -->
+      <div class="lg:col-span-7">
+        
+        <!-- Форма калькулятора -->
+        <div id="calcView" class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800/80 relative">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                Калькулятор <span class="text-blue-400" id="calcModeHeader">Карта / СБП РФ</span>
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5" id="modeSubtitle">Фиксация курса на момент создания заявки</p>
+            </div>
+            <div id="modePill" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">
+              До $5,000: Безнал
+            </div>
           </div>
-          <div class="text-[11px] text-slate-300 bg-slate-950 p-2 rounded-lg border border-slate-800 text-left" id="invDestDetails"></div>
+
+          <!-- Быстрый выбор сумм для проверки -->
+          <div class="mt-4">
+            <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Быстрый выбор суммы:</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button onclick="setFastAmount(1000)" class="quick-chip py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-blue-500 text-slate-300 text-center">1,000 $</button>
+              <button onclick="setFastAmount(3000)" class="quick-chip py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-blue-500 text-slate-300 text-center">3,000 $</button>
+              <button onclick="setFastAmount(5000)" class="quick-chip py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-bold text-amber-400 hover:bg-amber-500/20 text-center">5,000 $ VIP</button>
+              <button onclick="setFastAmount(10000)" class="quick-chip py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-bold text-amber-400 hover:bg-amber-500/20 text-center">10,000 $ VIP</button>
+            </div>
+          </div>
+
+          <!-- Поля ввода -->
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Отдаете -->
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 focus-within:border-blue-500 transition-colors">
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Вы отдаете</label>
+              <div class="flex items-center gap-2">
+                <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()"
+                       class="bg-transparent text-2xl font-black text-white w-full focus:outline-none font-mono">
+                <select id="networkSelect" onchange="handleCurrencyChange()" class="bg-slate-800 border border-slate-700 text-xs font-bold text-white rounded-xl px-2.5 py-2 focus:outline-none">
+                  <option value="USDT_TRC20">USDT TRC20</option>
+                  <option value="USDT_ERC20">USDT ERC20</option>
+                  <option value="USDT_BSC">USDT BEP20</option>
+                  <option value="BTC">BTC</option>
+                </select>
+              </div>
+              <span class="text-[11px] text-slate-500 mt-2 block" id="limitHint">Суммы от $5,000 переводятся в режим Наличных</span>
+            </div>
+
+            <!-- Получаете -->
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1" id="receiveLabel">Вы получаете на карту</label>
+              <div class="flex items-center gap-2">
+                <input type="text" id="fiatOutput" readonly class="bg-transparent text-2xl font-black text-emerald-400 w-full focus:outline-none font-mono">
+                <span class="bg-slate-800 border border-slate-700 text-xs font-bold text-slate-300 rounded-xl px-3 py-2">RUB</span>
+              </div>
+              <span id="rateLabel" class="text-[11px] text-slate-400 mt-2 block">1 USDT = 92.50 RUB</span>
+            </div>
+          </div>
+
+          <!-- Вариант А: До $5,000 (Реквизиты карты/СБП) -->
+          <div id="cardFieldsBlock" class="mt-4 space-y-3 pt-3 border-t border-slate-800">
+            <div class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="credit-card" class="w-4 h-4 text-blue-400"></i>
+              Куда перевести рубли (РФ):
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Способ получения</label>
+                <select id="bankSelect" class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
+                  <option value="СБП (Любой банк)">СБП (По номеру телефона)</option>
+                  <option value="Т-Банк">Т-Банк (Тинькофф)</option>
+                  <option value="Сбербанк">Сбербанк</option>
+                  <option value="ВТБ">ВТБ</option>
+                  <option value="Альфа-Банк">Альфа-Банк</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Номер карты или телефон СБП</label>
+                <input type="text" id="cardOrPhoneInput" placeholder="2200 ... или +7 (999) 000-00-00"
+                       class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Вариант Б: От $5,000 (VIP Наличные в крупных городах) -->
+          <div id="cashFieldsBlock" class="hidden mt-4 space-y-4 pt-3 bg-amber-500/5 p-4 sm:p-5 rounded-2xl border border-amber-500/20">
+            <div class="flex items-start gap-3">
+              <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
+              <div>
+                <h4 class="text-sm font-bold text-amber-300">Активирован VIP Cash Desk (от $5,000)</h4>
+                <p class="text-xs text-slate-300 mt-0.5 leading-relaxed">
+                  Банковские карты заблокированы для вашей безопасности (115-ФЗ). Выдача производится <strong>новыми купюрами RUB</strong> в охраняемых кассах или доставкой инкассацией.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Город выдачи наличных:</label>
+                <select id="cashCitySelect" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+                  <option value="Москва (Москва-Сити, Башня Федерация)">Москва (Москва-Сити)</option>
+                  <option value="Санкт-Петербург (Литейный / Невский)">Санкт-Петербург</option>
+                  <option value="Новосибирск (Центр)">Новосибирск</option>
+                  <option value="Екатеринбург (Высоцкий)">Екатеринбург</option>
+                  <option value="Казань (Центр)">Казань</option>
+                  <option value="Нижний Новгород">Нижний Новгород</option>
+                  <option value="Краснодар">Краснодар</option>
+                  <option value="Ростов-на-Дону">Ростов-на-Дону</option>
+                  <option value="Самара">Самара</option>
+                  <option value="Уфа">Уфа</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Формат встречи:</label>
+                <select id="cashDeliveryType" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+                  <option value="В кассе офиса (Пересчет в счетной машинке)">В охраняемой кассе офиса</option>
+                  <option value="VIP-Инкассация (Доставка в авто)">VIP-Инкассация (курьер)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Ваш контакт (Telegram или Телефон):</label>
+              <div class="relative">
+                <i data-lucide="send" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
+                <input type="text" id="tgContactInput" placeholder="@username для выписки пропуска"
+                       class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Кнопка действия -->
+          <button onclick="submitOrder()" id="actionBtn" class="mt-6 w-full blue-gradient text-white font-black py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99]">
+            <span id="actionBtnText" class="text-sm sm:text-base">ОБМЕНЯТЬ И ПОЛУЧИТЬ НА КАРТУ</span>
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </button>
         </div>
+
+        <!-- Экран Инвойса / Оплаты -->
+        <div id="invoiceView" class="hidden glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div>
+              <span class="text-xs font-mono tracking-widest text-slate-400" id="orderNumber">#ORD-5541</span>
+              <h2 class="text-xl font-bold text-white mt-0.5">Оплата ордера</h2>
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400">Бронь курса:</div>
+              <div class="text-sm font-mono font-bold text-amber-400" id="orderTimer">15:00</div>
+            </div>
+          </div>
+
+          <!-- Секретный код для кассы -->
+          <div id="cashCodeBox" class="hidden p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+            <div>
+              <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Код бронирования кассы:</div>
+              <div class="text-2xl font-mono font-black text-white mt-0.5" id="cashPinCode">CASH24-781-VIP</div>
+            </div>
+            <span class="text-xs text-slate-300 text-right">Назовите кассиру<br>в офисе</span>
+          </div>
+
+          <!-- Детали оплаты -->
+          <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 flex flex-col sm:flex-row items-center gap-6">
+            <div class="bg-white p-2.5 rounded-xl shrink-0 shadow-md" id="qrcodeHolder"></div>
+            <div class="w-full space-y-3">
+              <div>
+                <div class="text-xs text-slate-400">Сумма к отправке:</div>
+                <div class="text-2xl font-black text-emerald-400 font-mono" id="invCryptoSum">1,000 USDT</div>
+              </div>
+              <div>
+                <div class="text-xs text-slate-400">Адрес кошелька сервиса:</div>
+                <div class="flex items-center gap-2 mt-1">
+                  <input type="text" id="invWalletInput" readonly class="w-full bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 px-3 py-2.5 rounded-xl">
+                  <button onclick="copyWallet()" class="p-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-slate-300 transition" title="Копировать">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="text-xs text-slate-300 bg-slate-950 p-3 rounded-xl border border-slate-800" id="invDestDetails"></div>
+            </div>
+          </div>
+
+          <!-- Кнопки -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button onclick="confirmDeposit()" id="confirmBtn" class="flex-1 blue-gradient text-white font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 hover:brightness-110">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>Я перевел средства</span>
+            </button>
+            <button onclick="backToCalculator()" class="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl text-xs">
+              Изменить сумму
+            </button>
+          </div>
+        </div>
+
       </div>
 
-      <div class="flex gap-2">
-        <button onclick="confirmDeposit()" id="confirmBtn" class="flex-1 blue-gradient text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5">
-          <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>Я перевел средства</span>
-        </button>
-        <button onclick="backToCalculator()" class="px-4 py-3 bg-slate-800 text-slate-300 rounded-xl text-xs">Назад</button>
-      </div>
     </div>
   </main>
 
-  <div id="settingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-5 space-y-3">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-        <h3 class="font-bold text-sm text-white flex items-center gap-1.5">
-          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Панель управления (Владелец)
+  <!-- Скрытая модалка Администратора (5 кликов + 1107) -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-sm text-white flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Панель владельца
         </h3>
-        <button onclick="toggleModal(false)" class="text-slate-400"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button onclick="toggleModal(false)" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-      <div class="space-y-2 text-xs">
+      <div class="space-y-2.5 text-xs">
         <div>
           <label class="text-slate-400 block mb-0.5">USDT TRC-20:</label>
-          <input type="text" id="cfgTrc20" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[10px]">
+          <input type="text" id="cfgTrc20" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[10px]">
         </div>
         <div>
           <label class="text-slate-400 block mb-0.5">USDT ERC-20:</label>
-          <input type="text" id="cfgErc20" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[10px]">
+          <input type="text" id="cfgErc20" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[10px]">
         </div>
         <div>
           <label class="text-slate-400 block mb-0.5">USDT BEP-20 (BSC):</label>
-          <input type="text" id="cfgBsc" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[10px]">
+          <input type="text" id="cfgBsc" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[10px]">
         </div>
         <div>
           <label class="text-slate-400 block mb-0.5">Bitcoin (BTC):</label>
-          <input type="text" id="cfgBtc" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[10px]">
+          <input type="text" id="cfgBtc" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[10px]">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-slate-400 block mb-0.5">Курс USDT/RUB:</label>
-            <input type="number" id="cfgRateUsdt" step="0.1" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[11px]">
+            <input type="number" id="cfgRateUsdt" step="0.1" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[11px]">
           </div>
           <div>
             <label class="text-slate-400 block mb-0.5">Курс BTC/RUB:</label>
-            <input type="number" id="cfgRateBtc" step="1000" class="w-full bg-slate-950 border border-slate-800 text-white rounded p-1.5 font-mono text-[11px]">
+            <input type="number" id="cfgRateBtc" step="1000" class="w-full bg-slate-950 border border-slate-800 text-white rounded-lg p-2 font-mono text-[11px]">
           </div>
         </div>
       </div>
-      <button onclick="saveSettings()" class="w-full bg-amber-500 text-black font-bold py-2 rounded-lg text-xs">Сохранить изменения</button>
+      <button onclick="saveSettings()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 rounded-xl text-xs transition">
+        Сохранить настройки
+      </button>
     </div>
   </div>
 
-  <footer class="border-t border-slate-900 py-3 text-center text-[10px] text-slate-500">
-    USDT Cash24 © 2026. Надежный обмен криптовалюты.
+  <!-- Футер -->
+  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div>USDT Cash24 © 2026. Лицензированный обменный сервис.</div>
+      <div class="text-[11px] text-slate-600">Все операции защищены сквозным шифрованием</div>
+    </div>
   </footer>
 
   <script>
     const TG_BOT_TOKEN = "8721843596:AAFqQoGvBG-Bks_aCW-vbcFZHPLvhBHNkik";
     const TG_ADMIN_CHAT_ID = "8202893335";
-    const SECRET_PIN = "1107"; // Ваш секретный пароль
+    const SECRET_PIN = "1107";
 
     let clickCount = 0;
     let clickTimeout;
 
-    // Секретный вход: 5 кликов по логотипу + пароль 1107
     function handleSecretClick() {
       clickCount++;
       clearTimeout(clickTimeout);
-      
-      clickTimeout = setTimeout(() => {
-        clickCount = 0;
-      }, 1500);
+      clickTimeout = setTimeout(() => { clickCount = 0; }, 1500);
 
       if (clickCount >= 5) {
         clickCount = 0;
-        const enteredPin = prompt("Введите PIN-код администратора:");
-        if (enteredPin === SECRET_PIN) {
+        const entered = prompt("Введите PIN-код администратора:");
+        if (entered === SECRET_PIN) {
           toggleModal(true);
-        } else if (enteredPin !== null) {
+        } else if (entered !== null) {
           alert("Неверный PIN-код!");
         }
       }
@@ -272,7 +409,7 @@
         'USDT': 92.50,
         'BTC': 6100000
       },
-      thresholdRub: 462500
+      thresholdRub: 462500 // $5,000 эквивалент
     };
     let isCashMode = false;
 
@@ -299,6 +436,13 @@
       handleAmountChange();
     }
 
+    function setFastAmount(val) {
+      const select = document.getElementById('networkSelect');
+      if (select.value === 'BTC') select.value = 'USDT_TRC20';
+      document.getElementById('cryptoInput').value = val;
+      handleAmountChange();
+    }
+
     function handleCurrencyChange() {
       const selected = document.getElementById('networkSelect').value;
       const input = document.getElementById('cryptoInput');
@@ -317,11 +461,10 @@
       const rate = isBtc ? CONFIG.rates.BTC : CONFIG.rates.USDT;
       const totalRub = amount * rate;
 
-      document.getElementById('cryptoLabel').innerText = isBtc ? 'BTC' : 'USDT';
       document.getElementById('fiatOutput').value = `${Math.round(totalRub).toLocaleString('ru-RU')} ₽`;
       document.getElementById('rateLabel').innerText = isBtc 
-        ? `Курс: 1 BTC = ${rate.toLocaleString('ru-RU')} RUB`
-        : `Курс: 1 USDT = ${rate} RUB`;
+        ? `1 BTC = ${rate.toLocaleString('ru-RU')} RUB`
+        : `1 USDT = ${rate} RUB`;
 
       setCashMode(totalRub >= CONFIG.thresholdRub);
     }
@@ -333,31 +476,63 @@
       const banner = document.getElementById('policyBanner');
       const bannerText = document.getElementById('policyBannerText');
       const actionBtn = document.getElementById('actionBtn');
+      const actionBtnText = document.getElementById('actionBtnText');
+      const bgGlow = document.getElementById('bgGlow');
+      const brandBadge = document.getElementById('brandBadge');
+      const brandText = document.getElementById('brandText');
+      const vipBadge = document.getElementById('vipBadge');
+      const heroAccent = document.getElementById('heroAccentText');
+      const calcHeader = document.getElementById('calcModeHeader');
+      const modePill = document.getElementById('modePill');
+      const modeSubtitle = document.getElementById('modeSubtitle');
+      const receiveLabel = document.getElementById('receiveLabel');
 
       if (enabled) {
         card.classList.add('hidden');
         cash.classList.remove('hidden');
-        banner.className = 'bg-amber-500/10 border-b border-amber-500/20 py-1.5 px-4 text-center';
-        bannerText.className = 'text-xs text-amber-300 font-medium flex items-center justify-center gap-1.5';
-        bannerText.innerHTML = '<i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-400"></i><span>Сумма от <strong>$5,000</strong>: Выдача строго <strong>НАЛИЧНЫМИ</strong> в кассах РФ.</span>';
-        document.getElementById('modeTitle').innerText = 'Наличные (Cash)';
-        document.getElementById('modePill').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30';
-        document.getElementById('modePill').innerText = 'VIP Cash';
-        actionBtn.className = 'w-full gold-gradient text-slate-950 font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2';
-        document.getElementById('actionBtnText').innerText = 'ЗАБРОНИРОВАТЬ НАЛИЧНЫЕ';
-        document.getElementById('brandText').innerText = 'Cash24 VIP';
+
+        banner.className = 'bg-amber-500/10 border-b border-amber-500/20 py-2.5 px-4 text-center transition-colors';
+        bannerText.className = 'text-xs sm:text-sm text-amber-300 font-medium flex items-center justify-center gap-2';
+        bannerText.innerHTML = '<i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i><span>Сумма от <strong>$5,000</strong>: Выдача строго <strong>НАЛИЧНЫМИ</strong> в кассах РФ (защита от 115-ФЗ).</span>';
+
+        bgGlow.className = 'hero-glow gold-glow top-[-100px] right-[10%]';
+        brandBadge.className = 'w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 transition-all';
+        brandText.className = 'text-amber-400 transition-colors';
+        vipBadge.classList.remove('hidden');
+        heroAccent.className = 'text-amber-400 transition-colors';
+
+        calcHeader.innerText = 'Наличные в кассе';
+        calcHeader.className = 'text-amber-400';
+        modeSubtitle.innerText = 'Охраняемые депозитарии в Москве и регионах РФ';
+        modePill.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30';
+        modePill.innerText = 'VIP: Наличные';
+
+        actionBtn.className = 'mt-6 w-full gold-gradient text-slate-950 font-black py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99]';
+        actionBtnText.innerText = 'ЗАБРОНИРОВАТЬ НАЛИЧНЫЕ И ОПЛАТИТЬ';
+        receiveLabel.innerText = 'Вы получаете наличными (RUB)';
       } else {
         card.classList.remove('hidden');
         cash.classList.add('hidden');
-        banner.className = 'bg-blue-500/10 border-b border-blue-500/20 py-1.5 px-4 text-center';
-        bannerText.className = 'text-xs text-blue-300 font-medium flex items-center justify-center gap-1.5';
-        bannerText.innerHTML = '<i data-lucide="credit-card" class="w-3.5 h-3.5 text-blue-400"></i><span>Режим: <strong>Выплата на Карту / СБП РФ</strong> (до $5,000).</span>';
-        document.getElementById('modeTitle').innerText = 'Карта / СБП РФ';
-        document.getElementById('modePill').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30';
-        document.getElementById('modePill').innerText = 'Безнал';
-        actionBtn.className = 'w-full blue-gradient text-white font-bold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2';
-        document.getElementById('actionBtnText').innerText = 'ОБМЕНЯТЬ И ПОЛУЧИТЬ НА КАРТУ';
-        document.getElementById('brandText').innerText = 'Cash24';
+
+        banner.className = 'bg-blue-500/10 border-b border-blue-500/20 py-2.5 px-4 text-center transition-colors';
+        bannerText.className = 'text-xs sm:text-sm text-blue-300 font-medium flex items-center justify-center gap-2';
+        bannerText.innerHTML = '<i data-lucide="credit-card" class="w-4 h-4 text-blue-400"></i><span>Режим: <strong>Мгновенная выплата на Карту / СБП РФ</strong> (до $5,000).</span>';
+
+        bgGlow.className = 'hero-glow blue-glow top-[-100px] right-[10%]';
+        brandBadge.className = 'w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 transition-all';
+        brandText.className = 'text-blue-400 transition-colors';
+        vipBadge.classList.add('hidden');
+        heroAccent.className = 'text-blue-400 transition-colors';
+
+        calcHeader.innerText = 'Карта / СБП РФ';
+        calcHeader.className = 'text-blue-400';
+        modeSubtitle.innerText = 'Фиксация курса на момент создания заявки';
+        modePill.className = 'px-3 py-1 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30';
+        modePill.innerText = 'До $5,000: Безнал';
+
+        actionBtn.className = 'mt-6 w-full blue-gradient text-white font-black py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99]';
+        actionBtnText.innerText = 'ОБМЕНЯТЬ И ПОЛУЧИТЬ НА КАРТУ';
+        receiveLabel.innerText = 'Вы получаете на карту';
       }
       lucide.createIcons();
     }
@@ -365,18 +540,18 @@
     async function sendOrderNotification(order) {
       let text = '';
       if (order.isCash) {
-        text = `🔥 <b>USDT Cash24 | ЗАЯВКА НА НАЛИЧНЫЕ</b>\n\n` +
+        text = `🔥 <b>USDT Cash24 | VIP НАЛИЧНЫЕ</b>\n\n` +
                `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
-               `💵 <b>Отдает:</b> ${order.crypto} (${order.network})\n` +
+               `💵 <b>Отдает:</b> ${order.crypto}\n` +
                `💰 <b>К выдаче:</b> ${order.fiat}\n` +
                `📍 <b>Город:</b> ${order.city}\n` +
                `🏢 <b>Формат:</b> ${order.delivery}\n` +
-               `🔑 <b>Код брони:</b> <code>${order.code}</code>\n` +
+               `🔑 <b>Код кассы:</b> <code>${order.code}</code>\n` +
                `👤 <b>Контакт:</b> ${order.contact}`;
       } else {
-        text = `💳 <b>USDT Cash24 | ЗАЯВКА НА КАРТУ / СБП</b>\n\n` +
+        text = `💳 <b>USDT Cash24 | КАРТА / СБП</b>\n\n` +
                `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
-               `💵 <b>Отдает:</b> ${order.crypto} (${order.network})\n` +
+               `💵 <b>Отдает:</b> ${order.crypto}\n` +
                `💰 <b>К выплате:</b> ${order.fiat}\n` +
                `🏦 <b>Банк:</b> ${order.bank}\n` +
                `📱 <b>Реквизиты:</b> <code>${order.req}</code>`;
@@ -403,14 +578,13 @@
       let orderData = {
         id: orderId,
         crypto: `${amount} ${netKey.replace('_', ' ')}`,
-        network: netKey,
         fiat: fiatSum,
         isCash: isCashMode
       };
 
       if (isCashMode) {
         const contact = document.getElementById('tgContactInput').value.trim();
-        if (!contact) return alert('Укажите контакт для связи менеджера!');
+        if (!contact) return alert('Укажите ваш контакт (Telegram или телефон) для связи менеджера!');
         const city = document.getElementById('cashCitySelect').value;
         const delivery = document.getElementById('cashDeliveryType').value;
         const pinCode = `CASH24-${Math.floor(100 + Math.random()*900)}-VIP`;
@@ -443,7 +617,7 @@
       
       const holder = document.getElementById('qrcodeHolder');
       holder.innerHTML = '';
-      new QRCode(holder, { text: wallet, width: 120, height: 120 });
+      new QRCode(holder, { text: wallet, width: 130, height: 130 });
 
       document.getElementById('calcView').classList.add('hidden');
       document.getElementById('invoiceView').classList.remove('hidden');
