@@ -5,125 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>USDT Cash24 — Сервис обмена USDT на Карты и Наличные в РФ</title>
   
-  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- QRCode.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #07090e;
-      color: #f1f5f9;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-
-    .font-mono {
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Фоновые неоновые пятна */
-    .hero-glow {
-      position: absolute;
-      width: 550px;
-      height: 550px;
-      border-radius: 50%;
-      filter: blur(140px);
-      pointer-events: none;
-      z-index: 0;
-      transition: all 0.5s ease;
-    }
-
-    .blue-glow {
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
-    }
-
-    .gold-glow {
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
-    }
-
-    /* Стеклянные карточки */
-    .glass-card {
-      background: linear-gradient(180deg, rgba(17, 24, 39, 0.78) 0%, rgba(10, 14, 23, 0.92) 100%);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .glass-card-sub {
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .gold-gradient {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    }
-
-    .blue-gradient {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-    }
-
-    .quick-chip {
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .quick-chip:hover {
-      transform: translateY(-1px);
-    }
-
-    .network-btn {
-      transition: all 0.2s ease;
-    }
-
-    .network-btn.active {
-      background: rgba(37, 99, 235, 0.18);
-      border-color: #3b82f6;
-      color: #60a5fa;
-      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
-    }
-
-    /* Кастомный скроллбар */
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #07090e;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 3px;
-    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'Inter', sans-serif; background-color: #07090e; color: #f1f5f9; margin: 0; padding: 0; overflow-x: hidden; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .hero-glow { position: absolute; width: 550px; height: 550px; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; transition: all 0.5s ease; }
+    .blue-glow { background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(0, 0, 0, 0) 70%); }
+    .gold-glow { background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(0, 0, 0, 0) 70%); }
+    .glass-card { background: linear-gradient(180deg, rgba(17, 24, 39, 0.78) 0%, rgba(10, 14, 23, 0.92) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .quick-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .quick-chip:hover { transform: translateY(-1px); }
+    .network-btn.active { background: rgba(37, 99, 235, 0.18); border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
   </style>
 </head>
 
 <body class="min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white relative">
-
-  <!-- Градиентные световые ореолы на фоне -->
   <div id="bgGlow" class="hero-glow blue-glow top-[-80px] right-[5%]"></div>
   <div class="hero-glow blue-glow bottom-[-100px] left-[2%] opacity-60"></div>
 
-  <!-- ШАПКА САЙТА (ХЕДЕР) -->
+  <!-- Шапка -->
   <header class="border-b border-slate-800/80 bg-slate-950/85 sticky top-0 z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 py-3 flex items-center justify-between relative z-10">
-      
-      <!-- Логотип (5 быстрых кликов открывают админку с кошельками) -->
       <div id="secretLogoTrigger" onclick="handleSecretClick()" class="flex items-center gap-3 cursor-pointer select-none group">
         <div id="brandBadge" class="w-11 h-11 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-all shadow-inner">
           <i data-lucide="shield-check" class="w-6 h-6"></i>
@@ -137,11 +47,10 @@
         </div>
       </div>
 
-      <!-- Биржевой курс и статус касс -->
       <div class="flex items-center gap-3 sm:gap-6 text-xs">
         <div class="hidden md:flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3.5 py-1.5 rounded-full font-mono text-[11px]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span class="text-slate-400">Биржа CoinGecko:</span>
+          <span class="text-slate-400">Биржа:</span>
           <span id="headerLiveRate" class="text-white font-bold tracking-tight">USDT: 92.50 ₽</span>
         </div>
         <div class="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-3 py-1.5 rounded-full font-semibold text-[11px]">
@@ -149,11 +58,18 @@
           Кассы активны
         </div>
       </div>
-
     </div>
   </header>
 
-  <!-- Информационная полоса режимов работы -->
+  <!-- Баннер розыгрыша -->
+  <section class="bg-gradient-to-r from-amber-600/15 via-yellow-500/10 to-amber-600/15 border-b border-amber-500/30 py-2.5 px-4 text-center relative z-10">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm text-amber-300 font-semibold tracking-wide">
+      <i data-lucide="gift" class="w-4 h-4 text-amber-400 shrink-0 animate-bounce"></i>
+      <span>ГРАНД-СЕЗОН 2026: <strong>25,000 USDT и техника Apple</strong> для клиентов. Номер ордера участвует автоматически!</span>
+    </div>
+  </section>
+
+  <!-- Инфо-полоса -->
   <section id="policyBanner" class="bg-blue-500/10 border-b border-blue-500/20 py-2.5 px-4 text-center relative z-10 transition-colors">
     <p id="policyBannerText" class="text-xs sm:text-sm text-blue-300 font-medium flex items-center justify-center gap-2">
       <i data-lucide="credit-card" class="w-4 h-4 shrink-0 text-blue-400"></i>
@@ -161,16 +77,15 @@
     </p>
   </section>
 
-  <!-- ГЛАВНЫЙ КОНТЕНТНЫЙ БЛОК -->
+  <!-- Контент -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full flex-grow relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <!-- ЛЕВАЯ КОЛОНКА (Инфо о сервисе, регламент, партнеры) -->
+      <!-- Левая колонка -->
       <div class="lg:col-span-5 space-y-6 pt-2">
-        
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700/80 mb-4">
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> Прямой шлюз P2P без скрытых сборов
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> Прямой биржевой курс без скрытых сборов
           </div>
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
             Безопасный обмен <span class="text-blue-400 transition-colors" id="heroAccentText">USDT</span> в рублях
@@ -180,117 +95,72 @@
           </p>
         </div>
 
-        <!-- Преимущества сервиса -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-2xl">
-            <div class="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-2.5">
-              <i data-lucide="zap" class="w-4 h-4"></i>
+        <div class="p-5 rounded-3xl bg-amber-500/5 border border-amber-500/25 space-y-3.5">
+          <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="trophy" class="w-5 h-5 text-amber-400"></i>
+              <span class="text-xs font-black text-amber-300 uppercase tracking-wider">Призовой фонд: $25,000</span>
             </div>
-            <h4 class="text-sm font-bold text-white">Выплаты за 5–15 минут</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-normal">Прямые переводы через СБП сразу после подтверждения транзакции в блокчейне.</p>
+            <span class="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Сезон 2026</span>
           </div>
-          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-2xl">
-            <div class="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-2.5">
-              <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <div class="grid grid-cols-3 gap-2 text-center pt-1">
+            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">1 место</div>
+              <div class="text-xs font-black text-amber-400 mt-0.5">10,000 $</div>
+              <div class="text-[9px] text-slate-500 mt-0.5">на кошелек</div>
             </div>
-            <h4 class="text-sm font-bold text-white">VIP Кассы от $5,000</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-normal">Офисы в Башне Федерация (Москва-Сити), СПБ и ключевых регионах РФ.</p>
+            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">2 место</div>
+              <div class="text-xs font-black text-white mt-0.5">iPhone 16 Pro</div>
+              <div class="text-[9px] text-slate-500 mt-0.5">1TB Titanium</div>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div class="text-[10px] text-slate-400 uppercase font-semibold">3 место</div>
+              <div class="text-xs font-black text-white mt-0.5">MacBook Air</div>
+              <div class="text-[9px] text-slate-500 mt-0.5">Apple M3</div>
+            </div>
           </div>
         </div>
 
-        <!-- БЛОК ПАРТНЕРОВ И ПРЕДПРИНИМАТЕЛЕЙ (Без картинок, стильные монограммы) -->
+        <!-- Партнеры -->
         <div class="glass-card p-5 rounded-3xl border border-slate-800 space-y-3.5">
           <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
             <div class="flex items-center gap-2">
               <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
               <span class="text-xs font-bold text-white uppercase tracking-wider">Нам доверяют партнеры</span>
             </div>
-            <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">
-              Верифицировано
-            </span>
+            <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">Верифицировано</span>
           </div>
-
           <div class="space-y-2.5 pt-1">
-            
-            <!-- Партнер 1: Игорь Рыбаков -->
             <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 border border-blue-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
-                  ИР
-                </div>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 border border-blue-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">ИР</div>
                 <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                    Игорь Рыбаков
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
-                  </div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">Игорь Рыбаков <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i></div>
                   <div class="text-[10px] text-slate-400">Сооснователь «ТЕХНОНИКОЛЬ» • Forbes</div>
                 </div>
               </div>
               <span class="text-[10px] font-mono font-bold text-amber-400 px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20">VIP Cash</span>
             </div>
-
-            <!-- Партнер 2: Оскар Хартманн -->
             <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 border border-emerald-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
-                  ОХ
-                </div>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 border border-emerald-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">ОХ</div>
                 <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                    Оскар Хартманн
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
-                  </div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">Оскар Хартманн <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i></div>
                   <div class="text-[10px] text-slate-400">Серийный инвестор, венчурный фонд</div>
                 </div>
               </div>
               <span class="text-[10px] font-mono font-bold text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">Постоянный</span>
             </div>
-
-            <!-- Партнер 3: Артемий Лебедев -->
-            <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-600 to-yellow-800 border border-amber-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
-                  АЛ
-                </div>
-                <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                    Артемий Лебедев
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
-                  </div>
-                  <div class="text-[10px] text-slate-400">Студия дизайна • Предприниматель</div>
-                </div>
-              </div>
-              <span class="text-[10px] font-mono font-bold text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">СБП / Кэш</span>
-            </div>
-
-            <!-- Партнер 4: Валентин Петухов -->
-            <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 border border-slate-600/40 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
-                  ВП
-                </div>
-                <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                    Валентин Петухов
-                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
-                  </div>
-                  <div class="text-[10px] text-slate-400">Медиа-агентство • VIP-клиент</div>
-                </div>
-              </div>
-              <span class="text-[10px] font-mono font-bold text-amber-400 px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20">VIP Cash</span>
-            </div>
-
           </div>
         </div>
-
       </div>
 
-      <!-- ПРАВАЯ КОЛОНКА (Калькулятор и Инвойс) -->
+      <!-- Правая колонка -->
       <div class="lg:col-span-7">
         
-        <!-- ЭКРАН 1: КАЛЬКУЛЯТОР -->
+        <!-- КАЛЬКУЛЯТОР -->
         <div id="calcView" class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800/80 relative">
-          
           <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
               <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
@@ -303,51 +173,40 @@
             </div>
           </div>
 
-          <!-- ВЫБОР СЕТИ И КРИПТОВАЛЮТЫ (Большие кнопки) -->
+          <!-- Сети -->
           <div class="mt-5">
             <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2.5">
               1. Выберите криптовалюту и сеть отправки:
             </label>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              
-              <button type="button" onclick="selectNetwork('USDT_TRC20')" id="btn-USDT_TRC20" 
-                      class="network-btn active py-3 px-3 rounded-2xl border border-slate-700 bg-slate-900 text-xs font-bold text-slate-200 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_TRC20')" id="btn-USDT_TRC20" class="network-btn active py-3 px-3 rounded-2xl border border-slate-700 bg-slate-900 text-xs font-bold text-slate-200 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] text-blue-400 font-mono font-bold tracking-wider">TRC-20 (Tron)</span>
               </button>
-
-              <button type="button" onclick="selectNetwork('USDT_BSC')" id="btn-USDT_BSC" 
-                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_BSC')" id="btn-USDT_BSC" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] font-mono tracking-wider">BEP-20 (BSC)</span>
               </button>
-
-              <button type="button" onclick="selectNetwork('USDT_ERC20')" id="btn-USDT_ERC20" 
-                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_ERC20')" id="btn-USDT_ERC20" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] font-mono tracking-wider">ERC-20 (Eth)</span>
               </button>
-
-              <button type="button" onclick="selectNetwork('BTC')" id="btn-BTC" 
-                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('BTC')" id="btn-BTC" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>Bitcoin</span>
                 <span class="text-[10px] text-amber-400 font-mono tracking-wider">BTC Network</span>
               </button>
-
             </div>
           </div>
 
-          <!-- Поля ввода сумм (Вы отдаете / Вы получаете) -->
+          <!-- Суммы -->
           <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
             <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 focus-within:border-blue-500 transition-colors">
               <div class="flex items-center justify-between mb-1">
                 <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Вы отдаете</label>
                 <span id="activeNetPill" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400">Сеть: TRC-20</span>
               </div>
               <div class="flex items-center gap-2">
-                <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()"
-                       class="bg-transparent text-2xl font-black text-white w-full focus:outline-none font-mono">
+                <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()" class="bg-transparent text-2xl font-black text-white w-full focus:outline-none font-mono">
                 <span id="cryptoTickerLabel" class="text-sm font-bold text-slate-300 bg-slate-800 px-2.5 py-1 rounded-lg">USDT</span>
               </div>
               <span class="text-[11px] text-slate-500 mt-2 block" id="limitHint">Суммы от $5,000 переводятся в режим Наличных</span>
@@ -364,10 +223,8 @@
                 <span>Загрузка курса...</span>
               </span>
             </div>
-
           </div>
 
-          <!-- Быстрый выбор сумм -->
           <div class="mt-3">
             <div class="grid grid-cols-4 gap-2">
               <button onclick="setFastAmount(1000)" class="quick-chip py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-blue-500 text-slate-300 text-center">1,000 $</button>
@@ -377,7 +234,7 @@
             </div>
           </div>
 
-          <!-- ПОЛЯ ДО $5,000: Безнал (Карты РФ / СБП) -->
+          <!-- Безнал -->
           <div id="cardFieldsBlock" class="mt-4 space-y-3 pt-3 border-t border-slate-800">
             <div class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
               <i data-lucide="credit-card" class="w-4 h-4 text-blue-400"></i>
@@ -396,15 +253,13 @@
               </div>
               <div>
                 <label class="block text-[10px] text-slate-400 mb-1">Номер карты или телефон СБП</label>
-                <input type="text" id="cardOrPhoneInput" placeholder="2200 ... или +7 (999) 000-00-00"
-                       class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
+                <input type="text" id="cardOrPhoneInput" placeholder="2200 ... или +7 (999) 000-00-00" class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
               </div>
             </div>
           </div>
 
-          <!-- ПОЛЯ ОТ $5,000: VIP Наличные с конкретными адресами -->
+          <!-- Наличные -->
           <div id="cashFieldsBlock" class="hidden mt-4 space-y-4 pt-3 bg-amber-500/5 p-4 sm:p-5 rounded-2xl border border-amber-500/20">
-            
             <div class="flex items-start gap-3">
               <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
               <div>
@@ -431,7 +286,6 @@
                   <option value="ufa">Уфа</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Формат встречи:</label>
                 <select id="cashDeliveryType" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
@@ -441,13 +295,11 @@
               </div>
             </div>
 
-            <!-- ИНТЕРАКТИВНАЯ КАРТОЧКА АДРЕСА КАCCЫ -->
             <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 flex items-start gap-3">
               <i data-lucide="map-pin" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
               <div class="text-xs">
                 <span class="text-slate-400 text-[10px] block font-semibold uppercase tracking-wider">Адрес депозитария / кассы:</span>
                 <span id="selectedCityAddressText" class="font-bold text-white block mt-0.5">Пресненская наб., 12 (Москва-Сити, Башня Федерация Восток, 31 этаж)</span>
-                <span class="text-[10px] text-emerald-400 mt-1 block">✓ Пропуск оформляется менеджером перед визитом</span>
               </div>
             </div>
 
@@ -455,24 +307,19 @@
               <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Ваш контакт (Telegram или Телефон):</label>
               <div class="relative">
                 <i data-lucide="send" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
-                <input type="text" id="tgContactInput" placeholder="@username для связи менеджера"
-                       class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+                <input type="text" id="tgContactInput" placeholder="@username для связи менеджера" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
               </div>
             </div>
-
           </div>
 
-          <!-- Кнопка подтверждения создания ордера -->
           <button onclick="submitOrder()" id="actionBtn" class="mt-6 w-full blue-gradient text-white font-black py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99]">
             <span id="actionBtnText" class="text-sm sm:text-base">ОБМЕНЯТЬ И ПОЛУЧИТЬ НА КАРТУ</span>
             <i data-lucide="arrow-right" class="w-5 h-5"></i>
           </button>
-
         </div>
 
-        <!-- ЭКРАН 2: ИНВОЙС / ОПЛАТА ОРДЕРА -->
+        <!-- ИНВОЙС -->
         <div id="invoiceView" class="hidden glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
-          
           <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
               <span class="text-xs font-mono tracking-widest text-slate-400" id="orderNumber">#ORD-5541</span>
@@ -484,7 +331,17 @@
             </div>
           </div>
 
-          <!-- ПРЕДУПРЕЖДЕНИЕ О СЕТИ -->
+          <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <i data-lucide="ticket" class="w-5 h-5 text-amber-400 shrink-0"></i>
+              <div>
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Билет участника розыгрыша $25,000:</span>
+                <span id="lotteryTicketNumber" class="text-xs font-mono font-bold text-white">#TICKET-CASH24-XXXX</span>
+              </div>
+            </div>
+            <span id="lotteryTicketsCount" class="text-[11px] font-bold text-amber-300 bg-amber-500/20 px-2.5 py-1 rounded-lg border border-amber-500/30">1 билет</span>
+          </div>
+
           <div class="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center gap-3" id="invoiceNetworkBanner">
             <i data-lucide="alert-triangle" class="w-5 h-5 text-blue-400 shrink-0"></i>
             <div class="text-xs leading-snug">
@@ -494,7 +351,6 @@
             </div>
           </div>
 
-          <!-- Код бронирования кассы (только в режиме наличных) -->
           <div id="cashCodeBox" class="hidden p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
             <div>
               <div class="text-[11px] font-bold text-amber-400 uppercase tracking-wider">Код бронирования кассы:</div>
@@ -503,17 +359,14 @@
             <span class="text-xs text-slate-300 text-right">Назовите кассиру<br>в офисе</span>
           </div>
 
-          <!-- Карточка оплаты с QR-кодом и адресом -->
           <div class="bg-slate-900/90 rounded-2xl p-5 border border-slate-800 flex flex-col sm:flex-row items-center gap-6">
             <div class="bg-white p-2.5 rounded-xl shrink-0 shadow-md" id="qrcodeHolder"></div>
-            
             <div class="w-full space-y-3">
               <div>
                 <div class="text-xs text-slate-400">Сумма к отправке:</div>
                 <div class="text-2xl font-black text-emerald-400 font-mono" id="invCryptoSum">1,000 USDT</div>
                 <div class="text-xs font-bold text-blue-400 mt-0.5" id="invCryptoNetHint">Сеть: TRC-20 (Tron)</div>
               </div>
-
               <div>
                 <div class="text-xs text-slate-400">Адрес кошелька сервиса:</div>
                 <div class="flex items-center gap-2 mt-1">
@@ -523,14 +376,12 @@
                   </button>
                 </div>
               </div>
-
               <div class="text-xs text-slate-300 bg-slate-950 p-3 rounded-xl border border-slate-800" id="invDestDetails"></div>
             </div>
           </div>
 
-          <!-- Кнопки управления ордером -->
           <div class="flex flex-col sm:flex-row gap-3">
-            <button onclick="confirmDeposit()" id="confirmBtn" class="flex-1 blue-gradient text-white font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 hover:brightness-110">
+            <button onclick="confirmDeposit()" id="confirmDepositBtn" class="flex-1 blue-gradient text-white font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99] transition">
               <i data-lucide="check" class="w-4 h-4"></i>
               <span>Я перевел средства</span>
             </button>
@@ -538,15 +389,74 @@
               Изменить сумму
             </button>
           </div>
+        </div>
 
+        <!-- LIVE-СТАТУС И СКАНИРОВАНИЕ БЛОКЧЕЙНА -->
+        <div id="processingView" class="hidden glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
+          <div class="text-center space-y-2 pt-2">
+            <div id="statusIconWrap" class="w-16 h-16 rounded-3xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto shadow-lg">
+              <i data-lucide="loader-2" class="w-8 h-8 animate-spin"></i>
+            </div>
+            <h3 class="text-xl font-black text-white pt-2" id="procHeaderTitle">Опрос блокчейна Tron (TRC-20)...</h3>
+            <p class="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed" id="procHeaderDesc">
+              Подключаемся к нодам сети TronScan для проверки входящей транзакции...
+            </p>
+          </div>
+
+          <div class="space-y-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-slate-400" id="procStepLabel">Поиск транзакции...</span>
+              <span class="text-blue-400 font-bold" id="procPercentLabel">25%</span>
+            </div>
+            <div class="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden border border-slate-800/80">
+              <div id="procProgressBar" class="h-full blue-gradient transition-all duration-700" style="width: 25%"></div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
+              <span>Сеть: <strong class="text-slate-300" id="procNetName">USDT TRC-20</strong></span>
+              <span id="procBlockConf">Проверка хэша...</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/80 space-y-2 text-xs">
+            <div class="flex justify-between border-b border-slate-800/60 pb-2">
+              <span class="text-slate-400">Номер ордера:</span>
+              <span class="font-mono font-bold text-white" id="procOrderNum">#ORD-XXXX</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/60 pb-2">
+              <span class="text-slate-400">Сумма к отправке:</span>
+              <span class="font-mono font-bold text-emerald-400" id="procCryptoSum">1000 USDT</span>
+            </div>
+            <div class="flex justify-between border-b border-slate-800/60 pb-2">
+              <span class="text-slate-400">К получению:</span>
+              <span class="font-mono font-bold text-white" id="procFiatSum">92 500 ₽</span>
+            </div>
+            <div class="flex justify-between pt-0.5">
+              <span class="text-slate-400">Регламент:</span>
+              <span class="text-amber-400 font-bold font-mono" id="procCountdown">15:00 мин</span>
+            </div>
+          </div>
+
+          <!-- Кнопка повторной проверки при ошибке -->
+          <div id="verifyActionBtns" class="space-y-2.5 pt-2">
+            <button onclick="retryCheckBlockchain()" id="retryBtn" class="hidden w-full blue-gradient text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg">
+              <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+              <span>Проверить блокчейн снова</span>
+            </button>
+            <a href="https://t.me/usdtcash24_support" target="_blank" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 transition">
+              <i data-lucide="message-square" class="w-4 h-4 text-blue-400"></i>
+              <span>Связаться с оператором</span>
+            </a>
+            <button onclick="backToCalculator()" class="w-full text-slate-500 hover:text-slate-300 text-xs py-2 transition text-center block">
+              Создать новую заявку
+            </button>
+          </div>
         </div>
 
       </div>
-
     </div>
   </main>
 
-  <!-- СКРЫТАЯ ПАНЕЛЬ АДМИНИСТРАТОРА (5 кликов по логотипу + PIN 1107) -->
+  <!-- Скрытая админка -->
   <div id="settingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -581,7 +491,6 @@
     </div>
   </div>
 
-  <!-- ФУТЕР САЙТА -->
   <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500 relative z-10">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
       <div>USDT Cash24 © 2026. Лицензированный обменный сервис.</div>
@@ -589,14 +498,11 @@
     </div>
   </footer>
 
-  <!-- СКРИПТ ЛОГИКИ САЙТА -->
   <script>
-    // Токены и админские настройки
     const TG_BOT_TOKEN = "8721843596:AAFqQoGvBG-Bks_aCW-vbcFZHPLvhBHNkik";
     const TG_ADMIN_CHAT_ID = "8202893335";
     const SECRET_PIN = "1107";
 
-    // Справочник адресов касс
     const CITY_ADDRESSES = {
       'msk': { name: 'Москва', address: 'Пресненская наб., 12 (Москва-Сити, Башня Федерация Восток, 31 этаж)' },
       'spb': { name: 'Санкт-Петербург', address: 'Литейный пр-т, 26 (БЦ «Преображенский Двор», офис 402)' },
@@ -610,7 +516,6 @@
       'ufa': { name: 'Уфа', address: 'ул. Ленина, 70 (БЦ «Галерея Арт»)' }
     };
 
-    // Конфиг кошельков и курсов
     const CONFIG = JSON.parse(localStorage.getItem('usdt_cash24_wallets')) || {
       wallets: {
         'USDT_TRC20': 'TCfVviUoDhhfJKQCa53PuGteMJ39oKfpVh',
@@ -629,6 +534,8 @@
     let isCashMode = false;
     let clickCount = 0;
     let clickTimeout;
+    let activeOrderGlobal = null;
+    let countdownInterval = null;
 
     const NETWORK_NAMES = {
       'USDT_TRC20': 'USDT (TRC-20, Tron)',
@@ -804,35 +711,42 @@
       lucide.createIcons();
     }
 
-    async function sendOrderNotification(order) {
+    async function sendOrderNotification(order, isConfirmedRealTx = false, txid = '') {
       let text = '';
-      if (order.isCash) {
-        text = `🔥 <b>USDT Cash24 | VIP НАЛИЧНЫЕ</b>\n\n` +
+      if (isConfirmedRealTx) {
+        text = `🚨 <b>РЕАЛЬНАЯ ТРАНЗАКЦИЯ В БЛОКЧЕЙНЕ ПОДТВЕРЖДЕНА!</b>\n\n` +
                `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
-               `💵 <b>Отдает:</b> ${order.crypto} (Сеть: ${order.network})\n` +
-               `💰 <b>К выдаче:</b> ${order.fiat}\n` +
-               `📍 <b>Город:</b> ${order.city}\n` +
-               `🏢 <b>Адрес кассы:</b> ${order.address}\n` +
-               `🛡️ <b>Формат:</b> ${order.delivery}\n` +
-               `🔑 <b>Код кассы:</b> <code>${order.code}</code>\n` +
-               `👤 <b>Контакт:</b> ${order.contact}`;
+               `💵 <b>Получено:</b> ${order.crypto} (${order.network})\n` +
+               `💰 <b>К выплате клиенту:</b> ${order.fiat}\n` +
+               (order.isCash ? `📍 <b>Город:</b> ${order.city}\n🏢 <b>Адрес:</b> ${order.address}\n🔑 <b>Код кассы:</b> <code>${order.code}</code>\n👤 <b>Контакт:</b> ${order.contact}` : `🏦 <b>Банк:</b> ${order.bank}\n📱 <b>Реквизиты:</b> <code>${order.req}</code>`) +
+               `\n\n🔗 <b>TxID (TronScan):</b> <a href="https://tronscan.org/#/transaction/${txid}">${txid.slice(0, 14)}...</a>\n<i>Деньги на кошельке! Произведите выплату / выдачу.</i>`;
       } else {
-        text = `💳 <b>USDT Cash24 | КАРТА / СБП</b>\n\n` +
-               `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
-               `💵 <b>Отдает:</b> ${order.crypto} (Сеть: ${order.network})\n` +
-               `💰 <b>К выплате:</b> ${order.fiat}\n` +
-               `🏦 <b>Банк:</b> ${order.bank}\n` +
-               `📱 <b>Реквизиты:</b> <code>${order.req}</code>`;
+        if (order.isCash) {
+          text = `📝 <b>СОЗДАН НОВЫЙ ОРДЕР (ОЖИДАЕТ ОПЛАТЫ)</b>\n\n` +
+                 `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
+                 `💵 <b>Отдает:</b> ${order.crypto} (${order.network})\n` +
+                 `💰 <b>К выдаче:</b> ${order.fiat}\n` +
+                 `📍 <b>Город:</b> ${order.city}\n` +
+                 `🔑 <b>Код:</b> <code>${order.code}</code>\n` +
+                 `👤 <b>Контакт:</b> ${order.contact}`;
+        } else {
+          text = `📝 <b>СОЗДАН НОВЫЙ ОРДЕР (ОЖИДАЕТ ОПЛАТЫ)</b>\n\n` +
+                 `🆔 <b>Ордер:</b> <code>${order.id}</code>\n` +
+                 `💵 <b>Отдает:</b> ${order.crypto} (${order.network})\n` +
+                 `💰 <b>К выплате:</b> ${order.fiat}\n` +
+                 `🏦 <b>Банк:</b> ${order.bank}\n` +
+                 `📱 <b>Реквизиты:</b> <code>${order.req}</code>`;
+        }
       }
 
       try {
         await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: TG_ADMIN_CHAT_ID, text: text, parse_mode: 'HTML' })
+          body: JSON.stringify({ chat_id: TG_ADMIN_CHAT_ID, text: text, parse_mode: 'HTML', disable_web_page_preview: true })
         });
       } catch (err) {
-        console.error('Ошибка отправки ордера:', err);
+        console.error('Ошибка отправки:', err);
       }
     }
 
@@ -843,11 +757,21 @@
       const wallet = CONFIG.wallets[currentNetwork] || CONFIG.wallets['USDT_TRC20'];
       const netTitle = NETWORK_NAMES[currentNetwork];
 
+      let tickets = 1;
+      if (amount >= 5000) tickets = 20;
+      else if (amount >= 1500) tickets = 5;
+      else if (amount >= 300) tickets = 1;
+      else tickets = 0;
+
       let orderData = {
         id: orderId,
+        rawAmount: amount,
         crypto: `${amount} ${currentNetwork.startsWith('USDT') ? 'USDT' : 'BTC'}`,
         network: netTitle,
+        netKey: currentNetwork,
+        wallet: wallet,
         fiat: fiatSum,
+        tickets: tickets > 0 ? `${tickets} шт.` : '0 шт.',
         isCash: isCashMode
       };
 
@@ -880,9 +804,13 @@
         document.getElementById('invDestDetails').innerHTML = `<strong>Выплата:</strong> ${fiatSum} на ${bank} (${req})`;
       }
 
-      sendOrderNotification(orderData);
+      activeOrderGlobal = orderData;
+      sendOrderNotification(orderData, false);
 
       document.getElementById('orderNumber').innerText = '#' + orderId;
+      document.getElementById('lotteryTicketNumber').innerText = `#TICKET-${orderId}`;
+      document.getElementById('lotteryTicketsCount').innerText = tickets > 0 ? `${tickets} билетов` : '0 билетов';
+      
       document.getElementById('invCryptoSum').innerText = `${amount} ${currentNetwork.startsWith('USDT') ? 'USDT' : 'BTC'}`;
       document.getElementById('invCryptoNetHint').innerText = `Сеть: ${netTitle}`;
       document.getElementById('invoiceNetworkName').innerText = netTitle;
@@ -893,22 +821,127 @@
       new QRCode(holder, { text: wallet, width: 130, height: 130 });
 
       document.getElementById('calcView').classList.add('hidden');
+      document.getElementById('processingView').classList.add('hidden');
       document.getElementById('invoiceView').classList.remove('hidden');
       lucide.createIcons();
     }
 
-    function backToCalculator() {
+    // РЕАЛЬНЫЙ ЗАПРОС К БЛОКЧЕЙНУ ЧЕРЕЗ TRONSCAN API
+    async function checkTronBlockchain(walletAddress, expectedAmount) {
+      try {
+        const url = `https://apilist.tronscanapi.com/api/token_trc20/transfers?limit=20&start=0&sort=-timestamp&count=true&relatedAddress=${walletAddress}`;
+        const resp = await fetch(url);
+        const data = await resp.json();
+
+        if (data && data.token_transfers && data.token_transfers.length > 0) {
+          const now = Date.now();
+          // Ищем входящую транзакцию USDT на указанный кошелек за последние 15 минут
+          for (let tx of data.token_transfers) {
+            const isToOurWallet = tx.to_address.toLowerCase() === walletAddress.toLowerCase();
+            const txTimeDiff = (now - tx.block_ts) / 1000; // секунды
+
+            if (isToOurWallet && txTimeDiff < 900) {
+              const decimals = tx.tokenInfo ? tx.tokenInfo.tokenDecimal : 6;
+              const transferredVal = parseFloat(tx.quant) / Math.pow(10, decimals);
+
+              // Если сумма совпадает с погрешностью 1%
+              if (Math.abs(transferredVal - expectedAmount) <= (expectedAmount * 0.02)) {
+                return { found: true, txid: tx.transaction_id, amount: transferredVal };
+              }
+            }
+          }
+        }
+        return { found: false };
+      } catch (err) {
+        console.warn("TronScan API check error:", err);
+        return { found: false, error: true };
+      }
+    }
+
+    // АВТО-ПРОВЕРКА И ОТСЕИВАНИЕ "КЛИКАЛЬЩИКОВ"
+    async function confirmDeposit() {
+      if (!activeOrderGlobal) return;
+
+      document.getElementById('procOrderNum').innerText = '#' + activeOrderGlobal.id;
+      document.getElementById('procCryptoSum').innerText = activeOrderGlobal.crypto;
+      document.getElementById('procFiatSum').innerText = activeOrderGlobal.fiat;
+      document.getElementById('procNetName').innerText = activeOrderGlobal.network;
+
+      // Сброс визуала
+      document.getElementById('procProgressBar').style.width = '30%';
+      document.getElementById('procProgressBar').className = 'h-full blue-gradient transition-all duration-700';
+      document.getElementById('procPercentLabel').innerText = '30%';
+      document.getElementById('procStepLabel').innerText = 'Поиск транзакции в сети Tron...';
+      document.getElementById('procHeaderTitle').innerText = 'Опрос блокчейна в реальном времени...';
+      document.getElementById('procHeaderDesc').innerText = 'Подключаемся к нодам TronScan для подтверждения входящего хэша...';
+      document.getElementById('retryBtn').classList.add('hidden');
+
+      const iconWrap = document.getElementById('statusIconWrap');
+      iconWrap.className = 'w-16 h-16 rounded-3xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto shadow-lg';
+      iconWrap.innerHTML = '<i data-lucide="loader-2" class="w-8 h-8 animate-spin"></i>';
+
       document.getElementById('invoiceView').classList.add('hidden');
+      document.getElementById('processingView').classList.remove('hidden');
+      lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Запуск сканирования сети
+      setTimeout(async () => {
+        document.getElementById('procProgressBar').style.width = '65%';
+        document.getElementById('procPercentLabel').innerText = '65%';
+        document.getElementById('procStepLabel').innerText = 'Чтение последних блоков мемпула...';
+
+        const result = await checkTronBlockchain(activeOrderGlobal.wallet, activeOrderGlobal.rawAmount);
+
+        if (result.found) {
+          // ТРАНЗАКЦИЯ НАЙДЕНА: Успех!
+          document.getElementById('procProgressBar').style.width = '100%';
+          document.getElementById('procPercentLabel').innerText = '100%';
+          document.getElementById('procStepLabel').innerText = 'Транзакция верифицирована!';
+          document.getElementById('procHeaderTitle').innerText = 'Оплата успешно зафиксирована!';
+          document.getElementById('procHeaderDesc').innerHTML = `Хэш транзакции подтвержден в сети Tron. TxID: <code class="text-emerald-400 font-mono text-[10px]">${result.txid.slice(0, 16)}...</code>. Заявка передана на выплату.`;
+
+          iconWrap.className = 'w-16 h-16 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg';
+          iconWrap.innerHTML = '<i data-lucide="check-circle" class="w-8 h-8"></i>';
+
+          // Отправляем админу уведомление О ПОДТВЕРЖДЕННОЙ ОПЛАТЕ
+          sendOrderNotification(activeOrderGlobal, true, result.txid);
+
+        } else {
+          // ТРАНЗАКЦИИ НЕТ: Отсеиваем пустозвона
+          document.getElementById('procProgressBar').style.width = '100%';
+          document.getElementById('procProgressBar').className = 'h-full bg-rose-500 transition-all duration-700';
+          document.getElementById('procPercentLabel').innerText = 'Не найдено';
+          document.getElementById('procPercentLabel').className = 'text-rose-400 font-bold';
+          document.getElementById('procStepLabel').innerText = 'Перевод на кошелек не обнаружен';
+          document.getElementById('procHeaderTitle').innerText = 'Входящий перевод не найден';
+          document.getElementById('procHeaderDesc').innerText = 'В блокчейне пока нет транзакции с указанной суммой на адрес сервиса. Если вы только что перевели средства, подождите 20-30 секунд до генерации блока и нажмите «Проверить снова».';
+
+          iconWrap.className = 'w-16 h-16 rounded-3xl bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto shadow-lg';
+          iconWrap.innerHTML = '<i data-lucide="alert-circle" class="w-8 h-8"></i>';
+
+          document.getElementById('retryBtn').classList.remove('hidden');
+          // В Telegram ничего не летит — спам отсеян!
+        }
+        lucide.createIcons();
+      }, 3500);
+    }
+
+    function retryCheckBlockchain() {
+      confirmDeposit();
+    }
+
+    function backToCalculator() {
+      if (countdownInterval) clearInterval(countdownInterval);
+      document.getElementById('invoiceView').classList.add('hidden');
+      document.getElementById('processingView').classList.add('hidden');
       document.getElementById('calcView').classList.remove('hidden');
+      lucide.createIcons();
     }
 
     function copyWallet() {
       navigator.clipboard.writeText(document.getElementById('invWalletInput').value);
       alert('Адрес кошелька скопирован!');
-    }
-
-    function confirmDeposit() {
-      alert('Оплата зафиксирована! Заявка передана дежурному оператору.');
     }
 
     function toggleModal(show) {
@@ -924,7 +957,7 @@
       localStorage.setItem('usdt_cash24_wallets', JSON.stringify(CONFIG));
       toggleModal(false);
       handleAmountChange();
-      alert('Кошельки успешно обновлены!');
+      alert('Кошельки успешно сохранены!');
     }
 
     function init() {
