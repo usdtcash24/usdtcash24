@@ -40,7 +40,6 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
 
-  <!-- Фоновое неоновое свечение -->
   <div id="bgGlow" class="hero-glow blue-glow top-[-100px] right-[10%]"></div>
   <div class="hero-glow blue-glow bottom-[-100px] left-[5%] opacity-50"></div>
 
@@ -86,7 +85,7 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full flex-grow relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <!-- ЛЕВАЯ КОЛОНКА (Инфо о сервисе и Партнеры) -->
+      <!-- ЛЕВАЯ КОЛОНКА -->
       <div class="lg:col-span-5 space-y-6 pt-2">
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700/80 mb-4">
@@ -117,7 +116,7 @@
           </div>
         </div>
 
-        <!-- БЛОК: ИЗВЕСТНЫЕ ПАРТНЕРЫ И КЛИЕНТЫ -->
+        <!-- БЛОК ПАРТНЕРОВ -->
         <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
           <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
             <div class="flex items-center gap-2">
@@ -130,10 +129,10 @@
           </div>
 
           <div class="space-y-2.5 pt-1">
-            <!-- Партнер 1 -->
             <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover border border-slate-700" alt="Wylsacom">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Valentin_Petukhov.jpg/240px-Valentin_Petukhov.jpg" 
+                     class="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0" alt="Wylsacom">
                 <div>
                   <div class="text-xs font-bold text-white flex items-center gap-1.5">
                     Валентин Петухов (Wylsacom)
@@ -145,10 +144,10 @@
               <span class="text-[10px] font-mono font-bold text-amber-400">Cash VIP</span>
             </div>
 
-            <!-- Партнер 2 -->
             <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&h=100&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover border border-slate-700" alt="Лебедев">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Artemy_Lebedev_2020.jpg/240px-Artemy_Lebedev_2020.jpg" 
+                     class="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0" alt="Артемий Лебедев">
                 <div>
                   <div class="text-xs font-bold text-white flex items-center gap-1.5">
                     Артемий Лебедев
@@ -160,25 +159,26 @@
               <span class="text-[10px] font-mono font-bold text-emerald-400">Постоянный</span>
             </div>
 
-            <!-- Партнер 3 -->
             <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover border border-slate-700" alt="Литвин">
+                <img src="https://i.ibb.co/vzj3W0b/litvin.jpg" 
+                     class="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0" alt="Михаил Литвин"
+                     onerror="this.src='https://ui-avatars.com/api/?name=Mikhail+Litvin&background=2563eb&color=fff'">
                 <div>
                   <div class="text-xs font-bold text-white flex items-center gap-1.5">
                     Михаил Литвин
                     <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
                   </div>
-                  <div class="text-[10px] text-slate-400">Блогер, основатель брендов</div>
+                  <div class="text-[10px] text-slate-400">Блогер, создатель брендов</div>
                 </div>
               </div>
               <span class="text-[10px] font-mono font-bold text-amber-400">Cash VIP</span>
             </div>
 
-            <!-- Партнер 4 -->
             <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" class="w-9 h-9 rounded-full object-cover border border-slate-700" alt="Амиран">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Amiran_Sardarov.jpg/240px-Amiran_Sardarov.jpg" 
+                     class="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0" alt="Амиран Сардаров">
                 <div>
                   <div class="text-xs font-bold text-white flex items-center gap-1.5">
                     Амиран Сардаров («Дневник Хача»)
@@ -211,7 +211,7 @@
             </div>
           </div>
 
-          <!-- ВЫБОР КРИПТОВАЛЮТЫ И СЕТИ (БОЛЬШИЕ КНОПКИ) -->
+          <!-- ВЫБОР СЕТИ -->
           <div class="mt-4">
             <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">
               1. Выберите криптовалюту и сеть перевода:
@@ -303,7 +303,7 @@
             </div>
           </div>
 
-          <!-- Поля от $5,000: VIP Наличные -->
+          <!-- Поля от $5,000: VIP Наличные с АДРЕСАМИ -->
           <div id="cashFieldsBlock" class="hidden mt-4 space-y-4 pt-3 bg-amber-500/5 p-4 sm:p-5 rounded-2xl border border-amber-500/20">
             <div class="flex items-start gap-3">
               <i data-lucide="shield-alert" class="w-5 h-5 text-amber-400 shrink-0 mt-0.5"></i>
@@ -318,17 +318,17 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               <div>
                 <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Город выдачи наличных:</label>
-                <select id="cashCitySelect" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
-                  <option value="Москва (Москва-Сити, Башня Федерация)">Москва (Москва-Сити)</option>
-                  <option value="Санкт-Петербург (Литейный / Невский)">Санкт-Петербург</option>
-                  <option value="Новосибирск (Центр)">Новосибирск</option>
-                  <option value="Екатеринбург (Высоцкий)">Екатеринбург</option>
-                  <option value="Казань (Центр)">Казань</option>
-                  <option value="Нижний Новгород">Нижний Новгород</option>
-                  <option value="Краснодар">Краснодар</option>
-                  <option value="Ростов-на-Дону">Ростов-на-Дону</option>
-                  <option value="Самара">Самара</option>
-                  <option value="Уфа">Уфа</option>
+                <select id="cashCitySelect" onchange="updateCityAddress()" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+                  <option value="msk">Москва</option>
+                  <option value="spb">Санкт-Петербург</option>
+                  <option value="nsk">Новосибирск</option>
+                  <option value="ekb">Екатеринбург</option>
+                  <option value="kzn">Казань</option>
+                  <option value="nn">Нижний Новгород</option>
+                  <option value="krd">Краснодар</option>
+                  <option value="rnd">Ростов-на-Дону</option>
+                  <option value="smr">Самара</option>
+                  <option value="ufa">Уфа</option>
                 </select>
               </div>
               <div>
@@ -337,6 +337,16 @@
                   <option value="В кассе офиса (Пересчет в счетной машинке)">В охраняемой кассе офиса</option>
                   <option value="VIP-Инкассация (Доставка в авто)">VIP-Инкассация (курьер)</option>
                 </select>
+              </div>
+            </div>
+
+            <!-- ИНТЕРАКТИВНАЯ КАРТОЧКА АДРЕСА КАCCЫ -->
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700 flex items-start gap-3">
+              <i data-lucide="map-pin" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+              <div class="text-xs">
+                <span class="text-slate-400 text-[10px] block font-semibold uppercase tracking-wider">Адрес депозитария / кассы:</span>
+                <span id="selectedCityAddressText" class="font-bold text-white block mt-0.5">Пресненская наб., 12 (Москва-Сити, Башня Федерация Восток, 31 этаж)</span>
+                <span class="text-[10px] text-emerald-400 mt-1 block">✓ Пропуск оформляется менеджером перед визитом</span>
               </div>
             </div>
 
@@ -369,7 +379,6 @@
             </div>
           </div>
 
-          <!-- ПРЕДУПРЕЖДЕНИЕ О СЕТИ -->
           <div class="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center gap-3" id="invoiceNetworkBanner">
             <i data-lucide="alert-triangle" class="w-5 h-5 text-blue-400 shrink-0"></i>
             <div class="text-xs leading-snug">
@@ -424,7 +433,7 @@
     </div>
   </main>
 
-  <!-- Скрытая панель администратора (5 кликов + 1107) -->
+  <!-- Панель администратора (5 кликов + 1107) -->
   <div id="settingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -469,6 +478,19 @@
     const TG_ADMIN_CHAT_ID = "8202893335";
     const SECRET_PIN = "1107";
 
+    const CITY_ADDRESSES = {
+      'msk': { name: 'Москва', address: 'Пресненская наб., 12 (Москва-Сити, Башня Федерация Восток, 31 этаж)' },
+      'spb': { name: 'Санкт-Петербург', address: 'Литейный пр-т, 26 (БЦ «Преображенский Двор», офис 402)' },
+      'nsk': { name: 'Новосибирск', address: 'ул. Ленина, 12 (Деловой центр «Манхэттен», касса 3)' },
+      'ekb': { name: 'Екатеринбург', address: 'ул. Малышева, 51 (Бизнес-центр «Высоцкий», 18 этаж)' },
+      'kzn': { name: 'Казань', address: 'ул. Островского, 87 (БЦ «Урбан», VIP-депозитарий)' },
+      'nn':  { name: 'Нижний Новгород', address: 'ул. Максима Горького, 117 (БЦ «Столица Нижний»)' },
+      'krd': { name: 'Краснодар', address: 'ул. Красная, 180 (БЦ «Кутузовский», касса 2)' },
+      'rnd': { name: 'Ростов-на-Дону', address: 'Буденновский пр-т, 60 (БЦ «Гедон», 7 этаж)' },
+      'smr': { name: 'Самара', address: 'Московское шоссе, 4А (МФЦ «Скала Холл»)' },
+      'ufa': { name: 'Уфа', address: 'ул. Ленина, 70 (БЦ «Галерея Арт»)' }
+    };
+
     const CONFIG = JSON.parse(localStorage.getItem('usdt_cash24_wallets')) || {
       wallets: {
         'USDT_TRC20': 'TCfVviUoDhhfJKQCa53PuGteMJ39oKfpVh',
@@ -494,6 +516,12 @@
       'USDT_ERC20': 'USDT (ERC-20, Ethereum)',
       'BTC': 'Bitcoin (BTC Native)'
     };
+
+    function updateCityAddress() {
+      const cityKey = document.getElementById('cashCitySelect').value;
+      const cityData = CITY_ADDRESSES[cityKey] || CITY_ADDRESSES['msk'];
+      document.getElementById('selectedCityAddressText').innerText = cityData.address;
+    }
 
     function handleSecretClick() {
       clickCount++;
@@ -628,6 +656,7 @@
         actionBtn.className = 'mt-6 w-full gold-gradient text-slate-950 font-black py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.99]';
         actionBtnText.innerText = 'ЗАБРОНИРОВАТЬ НАЛИЧНЫЕ И ОПЛАТИТЬ';
         receiveLabel.innerText = 'Вы получаете наличными (RUB)';
+        updateCityAddress();
       } else {
         card.classList.remove('hidden');
         cash.classList.add('hidden');
@@ -663,7 +692,8 @@
                `💵 <b>Отдает:</b> ${order.crypto} (Сеть: ${order.network})\n` +
                `💰 <b>К выдаче:</b> ${order.fiat}\n` +
                `📍 <b>Город:</b> ${order.city}\n` +
-               `🏢 <b>Формат:</b> ${order.delivery}\n` +
+               `🏢 <b>Адрес кассы:</b> ${order.address}\n` +
+               `🛡️ <b>Формат:</b> ${order.delivery}\n` +
                `🔑 <b>Код кассы:</b> <code>${order.code}</code>\n` +
                `👤 <b>Контакт:</b> ${order.contact}`;
       } else {
@@ -704,18 +734,20 @@
       if (isCashMode) {
         const contact = document.getElementById('tgContactInput').value.trim();
         if (!contact) return alert('Укажите ваш контакт для связи менеджера!');
-        const city = document.getElementById('cashCitySelect').value;
+        const cityKey = document.getElementById('cashCitySelect').value;
+        const cityData = CITY_ADDRESSES[cityKey] || CITY_ADDRESSES['msk'];
         const delivery = document.getElementById('cashDeliveryType').value;
         const pinCode = `CASH24-${Math.floor(100 + Math.random()*900)}-VIP`;
 
-        orderData.city = city;
+        orderData.city = cityData.name;
+        orderData.address = cityData.address;
         orderData.delivery = delivery;
         orderData.contact = contact;
         orderData.code = pinCode;
 
         document.getElementById('cashCodeBox').classList.remove('hidden');
         document.getElementById('cashPinCode').innerText = pinCode;
-        document.getElementById('invDestDetails').innerHTML = `<strong>Выдача:</strong> ${fiatSum} наличными<br><strong>Город:</strong> ${city}<br><strong>Контакт:</strong> ${contact}`;
+        document.getElementById('invDestDetails').innerHTML = `<strong>Выдача:</strong> ${fiatSum} наличными<br><strong>Локация:</strong> ${cityData.address}<br><strong>Контакт:</strong> ${contact}`;
       } else {
         const req = document.getElementById('cardOrPhoneInput').value.trim();
         if (!req) return alert('Укажите карту или телефон СБП!');
