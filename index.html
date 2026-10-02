@@ -355,6 +355,12 @@
             <span id="actionBtnText" class="text-sm sm:text-base">ОБМЕНЯТЬ И ПОЛУЧИТЬ СРЕДСТВА</span>
             <i data-lucide="arrow-right" class="w-5 h-5"></i>
           </button>
+
+          <!-- Бейдж стандартов работы под кнопкой -->
+          <div class="mt-3 flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium">
+            <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Операции в рамках ст. 128 ГК РФ и стандартов AML FATF</span>
+          </div>
         </div>
 
         <!-- ИНВОЙС / ОПЛАТА -->
@@ -535,7 +541,7 @@
     <div class="glass-card bg-slate-900 border border-slate-800 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="p-5 border-b border-slate-800 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <i data-lucide="file-text" class="w-5 h-5 text-blue-400"></i>
+          <i data-lucide="scale" class="w-5 h-5 text-blue-400"></i>
           <h3 id="legalModalTitle" class="font-extrabold text-sm sm:text-base text-white">Регламент сервиса</h3>
         </div>
         <button onclick="closeLegalModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
@@ -553,14 +559,35 @@
     </div>
   </div>
 
-  <!-- ФУТЕР С ЮРИДИЧЕСКИМИ ССЫЛКАМИ -->
-  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-500 relative z-10">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div>USDT Cash24 © 2026. Лицензированный международный обменный сервис.</div>
-      <div class="flex items-center gap-4 text-[11px] text-slate-400 font-medium">
-        <button type="button" onclick="openLegalModal('aml')" class="hover:text-blue-400 transition">Политика AML/KYC</button>
-        <button type="button" onclick="openLegalModal('terms')" class="hover:text-blue-400 transition">Пользовательское соглашение</button>
-        <button type="button" onclick="openLegalModal('risks')" class="hover:text-blue-400 transition">Уведомление о рисках</button>
+  <!-- ОФОРМЛЕННЫЙ ПРЕМИАЛЬНЫЙ ФУТЕР -->
+  <footer class="border-t border-slate-900/80 bg-slate-950/90 py-8 text-xs text-slate-400 relative z-10 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-slate-900">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <div class="font-bold text-white text-sm">USDT Cash24 Desk</div>
+            <div class="text-[11px] text-slate-500">Охраняемые кассовые узлы в Москва-Сити и регионах РФ</div>
+          </div>
+        </div>
+
+        <!-- Кнопки юридических документов -->
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <button type="button" onclick="openLegalModal('status')" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white transition text-[11px] font-medium">Правовой статус</button>
+          <button type="button" onclick="openLegalModal('aml')" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white transition text-[11px] font-medium">Политика AML/KYC</button>
+          <button type="button" onclick="openLegalModal('terms')" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white transition text-[11px] font-medium">Пользовательское соглашение</button>
+          <button type="button" onclick="openLegalModal('risks')" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:text-white transition text-[11px] font-medium">Уведомление о рисках</button>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500 text-center sm:text-left">
+        <div>© 2026 USDT Cash24. Все права защищены. Инфраструктура защищена сквозным шифрованием.</div>
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>Статус шлюза: Онлайн (Без задержек)</span>
+        </div>
       </div>
     </div>
   </footer>
@@ -585,6 +612,17 @@
     };
 
     const LEGAL_DOCS = {
+      status: {
+        title: "Правовой статус и соответствие законодательству",
+        body: `
+          <h4 class="font-bold text-white text-sm">1. Правовые основания деятельности в РФ</h4>
+          <p>Операции по обмену цифровых валют осуществляются в соответствии с положениями Федерального закона № 259-ФЗ «О цифровых финансовых активах...», а также ст. 128 и ст. 141.1 Гражданского кодекса РФ, квалифицирующими криптовалюты как объекты гражданских прав (имущество). Сделки мены и купли-продажи имущества между физическими и юридическими лицами носят законный характер.</p>
+          <h4 class="font-bold text-white text-sm mt-3">2. Защита от блокировок по 115-ФЗ</h4>
+          <p>Для предотвращения фиксации банками нетипичных объемов розничных операций безналичный шлюз сервиса ограничен лимитом до $5,000 на транзакцию. Крупные суммы от $5,000 передаются в кассовые узлы для расчетов наличными, что полностью исключает риски блокировки счетов клиентов по 115-ФЗ.</p>
+          <h4 class="font-bold text-white text-sm mt-3">3. Международный регуляторный контур</h4>
+          <p>Кассовое обслуживание и депозитарии в зарубежных юрисдикциях (включая Дубай, ОАЭ) функционируют в соответствии с нормативами Virtual Assets Regulatory Authority (VARA) и рекомендациями международной группы FATF.</p>
+        `
+      },
       aml: {
         title: "Регламент AML/KYC и комплаенс-контроля",
         body: `
