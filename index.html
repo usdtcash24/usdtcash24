@@ -5,35 +5,116 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>USDT Cash24 — Сервис обмена USDT на Карты и Наличные в РФ</title>
   
+  <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- QRCode.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { font-family: 'Inter', sans-serif; background-color: #07090e; color: #f1f5f9; margin: 0; padding: 0; overflow-x: hidden; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
-    .hero-glow { position: absolute; width: 550px; height: 550px; border-radius: 50%; filter: blur(140px); pointer-events: none; z-index: 0; transition: all 0.5s ease; }
-    .blue-glow { background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(0, 0, 0, 0) 70%); }
-    .gold-glow { background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(0, 0, 0, 0) 70%); }
-    .glass-card { background: linear-gradient(180deg, rgba(17, 24, 39, 0.78) 0%, rgba(10, 14, 23, 0.92) 100%); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); }
-    .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
-    .blue-gradient { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
-    .quick-chip { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .quick-chip:hover { transform: translateY(-1px); }
-    .network-btn.active { background: rgba(37, 99, 235, 0.18); border-color: #3b82f6; color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #07090e;
+      color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+      transition: all 0.5s ease;
+    }
+
+    .blue-glow {
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+    }
+
+    .gold-glow {
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
+    }
+
+    .glass-card {
+      background: linear-gradient(180deg, rgba(17, 24, 39, 0.78) 0%, rgba(10, 14, 23, 0.92) 100%);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    .blue-gradient {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    }
+
+    .quick-chip {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quick-chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .network-btn {
+      transition: all 0.2s ease;
+    }
+
+    .network-btn.active {
+      background: rgba(37, 99, 235, 0.18);
+      border-color: #3b82f6;
+      color: #60a5fa;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
   </style>
 </head>
 
 <body class="min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white relative">
+
+  <!-- Градиентные ореолы фона -->
   <div id="bgGlow" class="hero-glow blue-glow top-[-80px] right-[5%]"></div>
   <div class="hero-glow blue-glow bottom-[-100px] left-[2%] opacity-60"></div>
 
-  <!-- Шапка -->
+  <!-- ШАПКА САЙТА -->
   <header class="border-b border-slate-800/80 bg-slate-950/85 sticky top-0 z-40 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 py-3 flex items-center justify-between relative z-10">
+      
+      <!-- Скрытый вход в админку (5 кликов) -->
       <div id="secretLogoTrigger" onclick="handleSecretClick()" class="flex items-center gap-3 cursor-pointer select-none group">
         <div id="brandBadge" class="w-11 h-11 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-all shadow-inner">
           <i data-lucide="shield-check" class="w-6 h-6"></i>
@@ -47,6 +128,7 @@
         </div>
       </div>
 
+      <!-- Курс валют и статус -->
       <div class="flex items-center gap-3 sm:gap-6 text-xs">
         <div class="hidden md:flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3.5 py-1.5 rounded-full font-mono text-[11px]">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -58,18 +140,19 @@
           Кассы активны
         </div>
       </div>
+
     </div>
   </header>
 
-  <!-- Баннер розыгрыша -->
+  <!-- БАННЕР РОЗЫГРЫША ПРИЗОВ -->
   <section class="bg-gradient-to-r from-amber-600/15 via-yellow-500/10 to-amber-600/15 border-b border-amber-500/30 py-2.5 px-4 text-center relative z-10">
     <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 text-xs sm:text-sm text-amber-300 font-semibold tracking-wide">
       <i data-lucide="gift" class="w-4 h-4 text-amber-400 shrink-0 animate-bounce"></i>
-      <span>ГРАНД-СЕЗОН 2026: <strong>25,000 USDT и техника Apple</strong> для клиентов. Номер ордера участвует автоматически!</span>
+      <span>ГРАНД-СЕЗОН 2026: <strong>iPhone 18 Pro Max, MacBook Pro M5 и 15,000 USDT</strong> для клиентов сервиса!</span>
     </div>
   </section>
 
-  <!-- Инфо-полоса -->
+  <!-- Информационная полоса режимов выплат -->
   <section id="policyBanner" class="bg-blue-500/10 border-b border-blue-500/20 py-2.5 px-4 text-center relative z-10 transition-colors">
     <p id="policyBannerText" class="text-xs sm:text-sm text-blue-300 font-medium flex items-center justify-center gap-2">
       <i data-lucide="credit-card" class="w-4 h-4 shrink-0 text-blue-400"></i>
@@ -77,12 +160,13 @@
     </p>
   </section>
 
-  <!-- Контент -->
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full flex-grow relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       
-      <!-- Левая колонка -->
+      <!-- ЛЕВАЯ КОЛОНКА -->
       <div class="lg:col-span-5 space-y-6 pt-2">
+        
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800/80 text-slate-300 border border-slate-700/80 mb-4">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i> Прямой биржевой курс без скрытых сборов
@@ -95,72 +179,144 @@
           </p>
         </div>
 
-        <div class="p-5 rounded-3xl bg-amber-500/5 border border-amber-500/25 space-y-3.5">
+        <!-- КАРТОЧКА РОЗЫГРЫША ПРИЗОВ -->
+        <div class="p-5 rounded-3xl bg-amber-500/5 border border-amber-500/25 space-y-3.5 relative overflow-hidden">
           <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
             <div class="flex items-center gap-2">
               <i data-lucide="trophy" class="w-5 h-5 text-amber-400"></i>
-              <span class="text-xs font-black text-amber-300 uppercase tracking-wider">Призовой фонд: $25,000</span>
+              <span class="text-xs font-black text-amber-300 uppercase tracking-wider">Призовой фонд: $35,000</span>
             </div>
             <span class="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Сезон 2026</span>
           </div>
+
           <div class="grid grid-cols-3 gap-2 text-center pt-1">
             <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">1 место</div>
-              <div class="text-xs font-black text-amber-400 mt-0.5">10,000 $</div>
+              <div class="text-xs font-black text-amber-400 mt-0.5">15,000 $</div>
               <div class="text-[9px] text-slate-500 mt-0.5">на кошелек</div>
             </div>
             <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">2 место</div>
-              <div class="text-xs font-black text-white mt-0.5">iPhone 16 Pro</div>
-              <div class="text-[9px] text-slate-500 mt-0.5">1TB Titanium</div>
+              <div class="text-xs font-black text-white mt-0.5 leading-tight">iPhone 18 Pro Max</div>
+              <div class="text-[9px] text-slate-500 mt-0.5">2TB Titanium</div>
             </div>
             <div class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
               <div class="text-[10px] text-slate-400 uppercase font-semibold">3 место</div>
-              <div class="text-xs font-black text-white mt-0.5">MacBook Air</div>
-              <div class="text-[9px] text-slate-500 mt-0.5">Apple M3</div>
+              <div class="text-xs font-black text-white mt-0.5 leading-tight">MacBook Pro 16"</div>
+              <div class="text-[9px] text-slate-500 mt-0.5">Apple M5 Max</div>
             </div>
+          </div>
+
+          <p class="text-[11px] text-slate-400 leading-relaxed">
+            ⚡ <strong>Как участвовать:</strong> совершите любой обмен от $300. Номер ордера регистрируется в системе автоматически. Чем выше сумма — тем больше билетов!
+          </p>
+        </div>
+
+        <!-- Преимущества сервиса -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-2xl">
+            <div class="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 mb-2.5">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">Выплаты за 5–15 минут</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-normal">Прямые переводы через СБП сразу после подтверждения транзакции в блокчейне.</p>
+          </div>
+          <div class="bg-slate-900/60 border border-slate-800/80 p-4 rounded-2xl">
+            <div class="w-8 h-8 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-2.5">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-sm font-bold text-white">VIP Кассы от $5,000</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-normal">Офисы в Башне Федерация (Москва-Сити), СПБ и ключевых регионах РФ.</p>
           </div>
         </div>
 
-        <!-- Партнеры -->
+        <!-- БЛОК ПАРТНЕРОВ -->
         <div class="glass-card p-5 rounded-3xl border border-slate-800 space-y-3.5">
           <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
             <div class="flex items-center gap-2">
               <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
               <span class="text-xs font-bold text-white uppercase tracking-wider">Нам доверяют партнеры</span>
             </div>
-            <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">Верифицировано</span>
+            <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full font-semibold">
+              Верифицировано
+            </span>
           </div>
+
           <div class="space-y-2.5 pt-1">
             <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 border border-blue-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">ИР</div>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-800 border border-blue-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
+                  ИР
+                </div>
                 <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">Игорь Рыбаков <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i></div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Игорь Рыбаков
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
+                  </div>
                   <div class="text-[10px] text-slate-400">Сооснователь «ТЕХНОНИКОЛЬ» • Forbes</div>
                 </div>
               </div>
               <span class="text-[10px] font-mono font-bold text-amber-400 px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20">VIP Cash</span>
             </div>
+
             <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 border border-emerald-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">ОХ</div>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 border border-emerald-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
+                  ОХ
+                </div>
                 <div>
-                  <div class="text-xs font-bold text-white flex items-center gap-1.5">Оскар Хартманн <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i></div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Оскар Хартманн
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
+                  </div>
                   <div class="text-[10px] text-slate-400">Серийный инвестор, венчурный фонд</div>
                 </div>
               </div>
               <span class="text-[10px] font-mono font-bold text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">Постоянный</span>
             </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-600 to-yellow-800 border border-amber-400/30 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
+                  АЛ
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Артемий Лебедев
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
+                  </div>
+                  <div class="text-[10px] text-slate-400">Студия дизайна • Предприниматель</div>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono font-bold text-emerald-400 px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20">СБП / Кэш</span>
+            </div>
+
+            <div class="flex items-center justify-between p-2.5 rounded-2xl bg-slate-900/60 border border-slate-800/60">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 border border-slate-600/40 flex items-center justify-center font-black text-white text-xs tracking-wider shrink-0 shadow-md">
+                  ВП
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    Валентин Петухов
+                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-blue-400"></i>
+                  </div>
+                  <div class="text-[10px] text-slate-400">Медиа-агентство • VIP-клиент</div>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono font-bold text-amber-400 px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20">VIP Cash</span>
+            </div>
           </div>
         </div>
+
       </div>
 
-      <!-- Правая колонка -->
+      <!-- ПРАВАЯ КОЛОНКА -->
       <div class="lg:col-span-7">
         
-        <!-- КАЛЬКУЛЯТОР -->
+        <!-- ЭКРАН 1: КАЛЬКУЛЯТОР -->
         <div id="calcView" class="glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800/80 relative">
+          
           <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
               <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
@@ -173,32 +329,36 @@
             </div>
           </div>
 
-          <!-- Сети -->
+          <!-- Выбор сети -->
           <div class="mt-5">
             <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2.5">
               1. Выберите криптовалюту и сеть отправки:
             </label>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              <button type="button" onclick="selectNetwork('USDT_TRC20')" id="btn-USDT_TRC20" class="network-btn active py-3 px-3 rounded-2xl border border-slate-700 bg-slate-900 text-xs font-bold text-slate-200 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_TRC20')" id="btn-USDT_TRC20" 
+                      class="network-btn active py-3 px-3 rounded-2xl border border-slate-700 bg-slate-900 text-xs font-bold text-slate-200 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] text-blue-400 font-mono font-bold tracking-wider">TRC-20 (Tron)</span>
               </button>
-              <button type="button" onclick="selectNetwork('USDT_BSC')" id="btn-USDT_BSC" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_BSC')" id="btn-USDT_BSC" 
+                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] font-mono tracking-wider">BEP-20 (BSC)</span>
               </button>
-              <button type="button" onclick="selectNetwork('USDT_ERC20')" id="btn-USDT_ERC20" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('USDT_ERC20')" id="btn-USDT_ERC20" 
+                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>USDT</span>
                 <span class="text-[10px] font-mono tracking-wider">ERC-20 (Eth)</span>
               </button>
-              <button type="button" onclick="selectNetwork('BTC')" id="btn-BTC" class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
+              <button type="button" onclick="selectNetwork('BTC')" id="btn-BTC" 
+                      class="network-btn py-3 px-3 rounded-2xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-400 flex flex-col items-center gap-1 transition-all">
                 <span>Bitcoin</span>
                 <span class="text-[10px] text-amber-400 font-mono tracking-wider">BTC Network</span>
               </button>
             </div>
           </div>
 
-          <!-- Суммы -->
+          <!-- Ввод сумм -->
           <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 focus-within:border-blue-500 transition-colors">
               <div class="flex items-center justify-between mb-1">
@@ -206,7 +366,8 @@
                 <span id="activeNetPill" class="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-blue-500/20 text-blue-400">Сеть: TRC-20</span>
               </div>
               <div class="flex items-center gap-2">
-                <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()" class="bg-transparent text-2xl font-black text-white w-full focus:outline-none font-mono">
+                <input type="number" id="cryptoInput" value="1000" min="0.001" step="any" oninput="handleAmountChange()" 
+                       class="bg-transparent text-2xl font-black text-white w-full focus:outline-none font-mono">
                 <span id="cryptoTickerLabel" class="text-sm font-bold text-slate-300 bg-slate-800 px-2.5 py-1 rounded-lg">USDT</span>
               </div>
               <span class="text-[11px] text-slate-500 mt-2 block" id="limitHint">Суммы от $5,000 переводятся в режим Наличных</span>
@@ -225,6 +386,7 @@
             </div>
           </div>
 
+          <!-- Быстрый выбор -->
           <div class="mt-3">
             <div class="grid grid-cols-4 gap-2">
               <button onclick="setFastAmount(1000)" class="quick-chip py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold hover:border-blue-500 text-slate-300 text-center">1,000 $</button>
@@ -253,7 +415,8 @@
               </div>
               <div>
                 <label class="block text-[10px] text-slate-400 mb-1">Номер карты или телефон СБП</label>
-                <input type="text" id="cardOrPhoneInput" placeholder="2200 ... или +7 (999) 000-00-00" class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
+                <input type="text" id="cardOrPhoneInput" placeholder="2200 ... или +7 (999) 000-00-00" 
+                       class="w-full bg-slate-900 border border-slate-800 text-white rounded-xl px-3.5 py-3 text-xs focus:border-blue-500 focus:outline-none">
               </div>
             </div>
           </div>
@@ -307,7 +470,8 @@
               <label class="block text-[10px] font-bold text-slate-300 uppercase mb-1">Ваш контакт (Telegram или Телефон):</label>
               <div class="relative">
                 <i data-lucide="send" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
-                <input type="text" id="tgContactInput" placeholder="@username для связи менеджера" class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
+                <input type="text" id="tgContactInput" placeholder="@username для связи менеджера" 
+                       class="w-full bg-slate-900 border border-slate-700 text-white rounded-xl pl-10 pr-4 py-2.5 text-xs focus:border-amber-500 focus:outline-none">
               </div>
             </div>
           </div>
@@ -318,7 +482,7 @@
           </button>
         </div>
 
-        <!-- ИНВОЙС -->
+        <!-- ЭКРАН 2: ИНВОЙС / ОПЛАТА -->
         <div id="invoiceView" class="hidden glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
           <div class="flex items-center justify-between pb-4 border-b border-slate-800">
             <div>
@@ -331,11 +495,12 @@
             </div>
           </div>
 
+          <!-- Билет розыгрыша -->
           <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
             <div class="flex items-center gap-3">
               <i data-lucide="ticket" class="w-5 h-5 text-amber-400 shrink-0"></i>
               <div>
-                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Билет участника розыгрыша $25,000:</span>
+                <span class="text-[10px] font-bold text-amber-400 uppercase tracking-wider block">Билет участника розыгрыша $35,000:</span>
                 <span id="lotteryTicketNumber" class="text-xs font-mono font-bold text-white">#TICKET-CASH24-XXXX</span>
               </div>
             </div>
@@ -391,7 +556,7 @@
           </div>
         </div>
 
-        <!-- LIVE-СТАТУС И СКАНИРОВАНИЕ БЛОКЧЕЙНА -->
+        <!-- ЭКРАН 3: LIVE-СТАТУС И СКАНИРОВАНИЕ БЛОКЧЕЙНА -->
         <div id="processingView" class="hidden glass-card rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-6">
           <div class="text-center space-y-2 pt-2">
             <div id="statusIconWrap" class="w-16 h-16 rounded-3xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center mx-auto shadow-lg">
@@ -436,7 +601,6 @@
             </div>
           </div>
 
-          <!-- Кнопка повторной проверки при ошибке -->
           <div id="verifyActionBtns" class="space-y-2.5 pt-2">
             <button onclick="retryCheckBlockchain()" id="retryBtn" class="hidden w-full blue-gradient text-white font-bold py-3.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg">
               <i data-lucide="refresh-cw" class="w-4 h-4"></i>
@@ -456,7 +620,7 @@
     </div>
   </main>
 
-  <!-- Скрытая админка -->
+  <!-- Скрытая панель администратора (5 кликов + PIN 1107) -->
   <div id="settingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-6 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
@@ -826,7 +990,7 @@
       lucide.createIcons();
     }
 
-    // РЕАЛЬНЫЙ ЗАПРОС К БЛОКЧЕЙНУ ЧЕРЕЗ TRONSCAN API
+    // Запрос к TronScan API
     async function checkTronBlockchain(walletAddress, expectedAmount) {
       try {
         const url = `https://apilist.tronscanapi.com/api/token_trc20/transfers?limit=20&start=0&sort=-timestamp&count=true&relatedAddress=${walletAddress}`;
@@ -835,16 +999,14 @@
 
         if (data && data.token_transfers && data.token_transfers.length > 0) {
           const now = Date.now();
-          // Ищем входящую транзакцию USDT на указанный кошелек за последние 15 минут
           for (let tx of data.token_transfers) {
             const isToOurWallet = tx.to_address.toLowerCase() === walletAddress.toLowerCase();
-            const txTimeDiff = (now - tx.block_ts) / 1000; // секунды
+            const txTimeDiff = (now - tx.block_ts) / 1000;
 
             if (isToOurWallet && txTimeDiff < 900) {
               const decimals = tx.tokenInfo ? tx.tokenInfo.tokenDecimal : 6;
               const transferredVal = parseFloat(tx.quant) / Math.pow(10, decimals);
 
-              // Если сумма совпадает с погрешностью 1%
               if (Math.abs(transferredVal - expectedAmount) <= (expectedAmount * 0.02)) {
                 return { found: true, txid: tx.transaction_id, amount: transferredVal };
               }
@@ -858,7 +1020,7 @@
       }
     }
 
-    // АВТО-ПРОВЕРКА И ОТСЕИВАНИЕ "КЛИКАЛЬЩИКОВ"
+    // Авто-проверка и отсеивание пустых кликов
     async function confirmDeposit() {
       if (!activeOrderGlobal) return;
 
@@ -867,10 +1029,10 @@
       document.getElementById('procFiatSum').innerText = activeOrderGlobal.fiat;
       document.getElementById('procNetName').innerText = activeOrderGlobal.network;
 
-      // Сброс визуала
       document.getElementById('procProgressBar').style.width = '30%';
       document.getElementById('procProgressBar').className = 'h-full blue-gradient transition-all duration-700';
       document.getElementById('procPercentLabel').innerText = '30%';
+      document.getElementById('procPercentLabel').className = 'text-blue-400 font-bold';
       document.getElementById('procStepLabel').innerText = 'Поиск транзакции в сети Tron...';
       document.getElementById('procHeaderTitle').innerText = 'Опрос блокчейна в реальном времени...';
       document.getElementById('procHeaderDesc').innerText = 'Подключаемся к нодам TronScan для подтверждения входящего хэша...';
@@ -885,7 +1047,6 @@
       lucide.createIcons();
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      // Запуск сканирования сети
       setTimeout(async () => {
         document.getElementById('procProgressBar').style.width = '65%';
         document.getElementById('procPercentLabel').innerText = '65%';
@@ -894,7 +1055,6 @@
         const result = await checkTronBlockchain(activeOrderGlobal.wallet, activeOrderGlobal.rawAmount);
 
         if (result.found) {
-          // ТРАНЗАКЦИЯ НАЙДЕНА: Успех!
           document.getElementById('procProgressBar').style.width = '100%';
           document.getElementById('procPercentLabel').innerText = '100%';
           document.getElementById('procStepLabel').innerText = 'Транзакция верифицирована!';
@@ -904,11 +1064,9 @@
           iconWrap.className = 'w-16 h-16 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg';
           iconWrap.innerHTML = '<i data-lucide="check-circle" class="w-8 h-8"></i>';
 
-          // Отправляем админу уведомление О ПОДТВЕРЖДЕННОЙ ОПЛАТЕ
           sendOrderNotification(activeOrderGlobal, true, result.txid);
 
         } else {
-          // ТРАНЗАКЦИИ НЕТ: Отсеиваем пустозвона
           document.getElementById('procProgressBar').style.width = '100%';
           document.getElementById('procProgressBar').className = 'h-full bg-rose-500 transition-all duration-700';
           document.getElementById('procPercentLabel').innerText = 'Не найдено';
@@ -921,7 +1079,6 @@
           iconWrap.innerHTML = '<i data-lucide="alert-circle" class="w-8 h-8"></i>';
 
           document.getElementById('retryBtn').classList.remove('hidden');
-          // В Telegram ничего не летит — спам отсеян!
         }
         lucide.createIcons();
       }, 3500);
